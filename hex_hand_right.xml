@@ -1,83 +1,102 @@
 <mujoco model="hexrobotics_mechahand_right">
-  <compiler angle="radian" meshdir="assets" autolimits="true"/>
+  <compiler angle="radian" meshdir="assets" autolimits="true" eulerseq="xyz"/>
+  
+  <!-- Recommended to increase impratio in order to grab objects better.
 
-  <option impratio="10"/>
+  Settings larger than 1 cause friction forces to be “harder” than normal forces, having 
+  the general effect of preventing slip, without increasing the actual friction coefficient. -->
+  <option impratio="2"/>
 
   <default>
-    <default class="hex_hand_right">
+    <!-- The mesh files are saved in millimiteres. -->
+    <default class="millimeter_units">
       <mesh scale="0.001 0.001 0.001"/>
-      <joint axis="1 0 0" damping="0.05" armature="0.0002" frictionloss="0.01"/>
-      <position forcerange="-1 1"/>
+    </default>
 
-      <default class="wrist">
-        <default class="wrist_roll">
-          <joint axis="0 1 0" range="-1.57079632679 1.57079632679"/>
-          <position kp="1" ctrlrange="-10 10" forcerange="-20 20"/>
-        </default>
-      </default>  
+    <default class="damped">
+      <joint damping="0.1"/>
     </default>
   </default>
 
-
   <asset>
-    <mesh class="hex_hand_right" file="gimbal_structure.stl"/>
-    <mesh class="hex_hand_right" file="knuckle_gimbal.stl"/>
-    <mesh class="hex_hand_right" file="middle_segment.stl"/>
-    <mesh class="hex_hand_right" file="motor_box.stl"/>
-    <mesh class="hex_hand_right" file="mount_peg.stl"/>
-    <mesh class="hex_hand_right" file="palm.stl"/>
-    <mesh class="hex_hand_right" file="pinkie_pivot.stl"/>
-    <mesh class="hex_hand_right" file="proximal.stl"/>
-    <mesh class="hex_hand_right" file="squash_proximal.stl"/>
-    <mesh class="hex_hand_right" file="thumb_pivot.stl"/>
-    <mesh class="hex_hand_right" file="tip_spring_rod.stl"/>
-    <mesh class="hex_hand_right" file="tip.stl"/>
+    <mesh class="millimeter_units" file="gimbal_structure.stl"/>
+    <mesh class="millimeter_units" file="knuckle_gimbal.stl"/>
+    <mesh class="millimeter_units" file="middle_segment.stl"/>
+    <mesh class="millimeter_units" file="motor_box.stl"/>
+    <mesh class="millimeter_units" file="mount_peg.stl"/>
+    <mesh class="millimeter_units" file="palm.stl"/>
+    <mesh class="millimeter_units" file="pinkie_pivot.stl"/>
+    <mesh class="millimeter_units" file="proximal.stl"/>
+    <mesh class="millimeter_units" file="squash_proximal.stl"/>
+    <mesh class="millimeter_units" file="thumb_pivot.stl"/>
+    <mesh class="millimeter_units" file="tip_spring_rod.stl"/>
+    <mesh class="millimeter_units" file="tip.stl"/>
   </asset>
 
   <worldbody>
+    <!-- The mounting peg next to the elbow joint is the ground reference for the hand. -->
     <body name="mount_peg" pos="0 0 0">
       <geom type="mesh" mesh="mount_peg"/>
-    </body>
-    
-    <body name="motor_box" pos="0 0 0">
-      <!-- <inertial mass="0.9" pos="0 0 0" diaginertia="0.01 0.01 0.002"/> -->
-      <geom type="mesh" mesh="motor_box"/>
-      <joint name="wrist_roll" class="wrist_roll"/>
+
+      <!-- The wrist is a ball joint made of 3 hinge joints. -->
+
+      <!-- The box of tendon actuators rotates with the palm to avoid twisting the tendons. -->
+      <body name="motor_box" pos="0 0 0">
+        <inertial mass="0.9" pos="0 0.120 0.010" euler="0 0 90" diaginertia="0.00075 0.00219 0.0024"/>
+        <geom type="mesh" mesh="motor_box"/>
+        <joint name="wrist_roll" class="damped" axis="0 1 0" range="-1.0472 1.0472"/><!-- -60degrees 60degrees -->
+
+        <!-- The second hinge joint drives the pitch of the palm. -->
+        <body name="gimbal_structure" pos="0 0 0">
+          <geom type="mesh" mesh="gimbal_structure" mass="0.020"/>
+          <joint name="wrist_pitch" class="damped" axis="1 0 0" range="-0.436332 0.959931"/><!-- -25degrees 55degrees -->
+
+          <!-- The third hinge joint drives the yaw of the palm. -->  
+          <body name="palm" pos="0 -0.005 0">
+            <geom type="mesh" mesh="palm"/>
+            <joint name="wrist_yaw" class="damped" axis="0 0 1" pos="0 0.005 0" range="-0.349066 0.349066"/><!-- -20degrees 20degrees -->
+          </body>
+        </body>
+      </body>
     </body>
     
   </worldbody>
 
   <contact>
+    <exclude body1="mount_peg" body2="motor_box"/>
+    <exclude body1="motor_box" body2="gimbal_structure"/>
+    <exclude body1="motor_box" body2="palm"/>
+    <exclude body1="gimbal_structure" body2="palm"/>
   </contact>
 
   <tendon>
   </tendon>
 
   <actuator>
-<!--     <position name="thumb_tip" joint="thumb_tip" class="thumb_tip"/>
-    <position name="thumb_curl" joint="thumb_curl" class="thumb_curl"/>
-    <position name="thumb_pitch" joint="thumb_pitch" class="thumb_pitch"/>
-    <position name="thumb_yaw" joint="thumb_yaw" class="thumb_yaw"/>
-    <position name="index_tip" joint="index_tip" class="index_tip"/>
-    <position name="index_curl" joint="index_curl" class="index_curl"/>
-    <position name="index_pitch" joint="index_pitch" class="index_pitch"/>
-    <position name="index_yaw" joint="index_yaw" class="index_yaw"/>
-    <position name="middle_tip" joint="middle_tip" class="middle_tip"/>
-    <position name="middle_curl" joint="middle_curl" class="middle_curl"/>
-    <position name="middle_pitch" joint="middle_pitch" class="middle_pitch"/>
-    <position name="middle_yaw" joint="middle_yaw" class="middle_yaw"/>
-    <position name="ring_tip" joint="ring_tip" class="ring_tip"/>
-    <position name="ring_curl" joint="ring_curl" class="ring_curl"/>
-    <position name="ring_pitch" joint="ring_pitch" class="ring_pitch"/>
-    <position name="ring_yaw" joint="ring_yaw" class="ring_yaw"/>
-    <position name="pinkie_tip" joint="pinkie_tip" class="pinkie_tip"/>
-    <position name="pinkie_curl" joint="pinkie_curl" class="pinkie_curl"/>
-    <position name="pinkie_pitch" joint="pinkie_pitch" class="pinkie_pitch"/>
-    <position name="pinkie_yaw" joint="pinkie_yaw" class="pinkie_yaw"/>
-    <position name="pinkie_abduct" joint="pinkie_abduct" class="pinkie_abduct"/>
-    <position name="thumb_abduct" joint="thumb_abduct" class="thumb_abduct"/>
-    <position name="wrist_diagonal_left" joint="wrist_diagonal_left" class="wrist_diagonal_left"/>
-    <position name="wrist_diagonal_right" joint="wrist_diagonal_right" class="wrist_diagonal_right"/> -->
-    <position name="wrist_roll" joint="wrist_roll" class="wrist_roll"/>
+<!--     <position name="thumb_tip" joint="thumb_tip"/>
+    <position name="thumb_curl" joint="thumb_curl"/>
+    <position name="thumb_pitch" joint="thumb_pitch"/>
+    <position name="thumb_yaw" joint="thumb_yaw"/>
+    <position name="index_tip" joint="index_tip"/>
+    <position name="index_curl" joint="index_curl"/>
+    <position name="index_pitch" joint="index_pitch"/>
+    <position name="index_yaw" joint="index_yaw"/>
+    <position name="middle_tip" joint="middle_tip"/>
+    <position name="middle_curl" joint="middle_curl"/>
+    <position name="middle_pitch" joint="middle_pitch"/>
+    <position name="middle_yaw" joint="middle_yaw"/>
+    <position name="ring_tip" joint="ring_tip"/>
+    <position name="ring_curl" joint="ring_curl"/>
+    <position name="ring_pitch" joint="ring_pitch"/>
+    <position name="ring_yaw" joint="ring_yaw"/>
+    <position name="pinkie_tip" joint="pinkie_tip"/>
+    <position name="pinkie_curl" joint="pinkie_curl"/>
+    <position name="pinkie_pitch" joint="pinkie_pitch"/>
+    <position name="pinkie_yaw" joint="pinkie_yaw"/>
+    <position name="pinkie_abduct" joint="pinkie_abduct"/>
+    <position name="thumb_abduct" joint="thumb_abduct"/>  -->
+    <position name="wrist_yaw" joint="wrist_yaw" kp="0.4" ctrlrange="-0.523599 0.523599" forcerange="-0.8 0.8"/><!-- -30degrees 30degrees -->
+    <position name="wrist_pitch" joint="wrist_pitch" kp="0.4" ctrlrange="-0.698132 1.22173" forcerange="-0.8 0.8"/><!-- -40degrees 70degrees -->
+    <position name="wrist_roll" joint="wrist_roll" kp="0.6" ctrlrange="-1.309 1.309" forcerange="-1.0 1.0"/><!-- -75degrees 75degrees -->
   </actuator>
 </mujoco>
