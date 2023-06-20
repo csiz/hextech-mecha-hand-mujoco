@@ -1,11 +1,16 @@
 <mujoco model="hexrobotics_mechahand_right">
   <compiler angle="radian" meshdir="assets" autolimits="true" eulerseq="xyz"/>
   
-  <!-- Recommended to increase impratio in order to grab objects better.
+  <!-- Simulation options.
 
-  Settings larger than 1 cause friction forces to be “harder” than normal forces, having 
-  the general effect of preventing slip, without increasing the actual friction coefficient. -->
-  <option impratio="2"/>
+  Use the default timestep to have the simulation run at 500Hz.
+    
+  Recommended to increase impratio in order to grab objects better:
+    > Settings larger than 1 cause friction forces to be “harder” than normal forces, having 
+    > the general effect of preventing slip, without increasing the actual friction coefficient. 
+  
+  -->
+  <option timestep="0.002" impratio="2"/>
 
   <default>
     <!-- The mesh files are saved in millimiteres. -->
@@ -13,8 +18,21 @@
       <mesh scale="0.001 0.001 0.001"/>
     </default>
 
-    <default class="damped">
-      <joint damping="0.1"/>
+    <!-- Settings for range limited hinge joints with constraints tuned for 0.5Nm torque levels.
+      Use a large damping coefficient to prevent oscillations.
+      Use a large solimp to prevent the joint from overshooting the target position.
+        Expecting format `dmin, dmax, width, midpoint, power`.
+        Need large dmin and dmax to counter the actuator torque, use values up to 5Nm.
+        Let the width be 0.05 radians, the default is a bit too sharp causes a lot of bouncing.
+        Set the midpoint to 0.1 of width.
+        Set the power to 4 to have the impedance increase quickly after the midpoint.
+      Use the default solref, but set it explicitly to be aware of solver config.
+        Expecting format `timeconst, dampratio`.
+        Keep damping ratio at 1 for critical damping.
+        Keep timeconst at 0.02s which is 10 times higher than the default timestep.
+    -->
+    <default class="limited_joint">
+      <joint damping="0.1" solreflimit="0.02 1" solimplimit="0.8 5 0.05 0.1 4" limited="true"/>
     </default>
   </default>
 
@@ -44,17 +62,27 @@
       <body name="motor_box" pos="0 0 0">
         <inertial mass="0.9" pos="0 0.120 0.010" euler="0 0 90" diaginertia="0.00075 0.00219 0.0024"/>
         <geom type="mesh" mesh="motor_box"/>
-        <joint name="wrist_roll" class="damped" axis="0 1 0" range="-1.0472 1.0472"/><!-- -60degrees 60degrees -->
+        <joint name="wrist_roll" class="limited_joint" axis="0 1 0" range="-1.0472 1.0472"/><!-- -60degrees 60degrees -->
 
         <!-- The second hinge joint drives the pitch of the palm. -->
         <body name="gimbal_structure" pos="0 0 0">
           <geom type="mesh" mesh="gimbal_structure" mass="0.020"/>
-          <joint name="wrist_pitch" class="damped" axis="1 0 0" range="-0.436332 0.959931"/><!-- -25degrees 55degrees -->
+          <joint name="wrist_pitch" class="limited_joint" axis="1 0 0" range="-0.436332 0.959931"/><!-- -25degrees 55degrees -->
 
           <!-- The third hinge joint drives the yaw of the palm. -->  
           <body name="palm" pos="0 -0.005 0">
             <geom type="mesh" mesh="palm"/>
-            <joint name="wrist_yaw" class="damped" axis="0 0 1" pos="0 0.005 0" range="-0.349066 0.349066"/><!-- -20degrees 20degrees -->
+            <joint name="wrist_yaw" class="limited_joint" axis="0 0 1" pos="0 0.005 0" range="-0.349066 0.349066"/><!-- -20degrees 20degrees -->
+
+            <body name="thumb_pivot" pos="0 0 0">
+              <geom type="mesh" mesh="thumb_pivot"/>
+              <joint name="thumb_abduct" class="limited_joint" axis="-0.25882 0.96593 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+            </body>
+
+            <body name="pinkie_pivot" pos="0 0 0">
+              <geom type="mesh" mesh="pinkie_pivot"/>
+              <joint name="pinkie_abduct" class="limited_joint" axis="-0.25882 -0.96593 0" range="0 1.0472"/><!-- 0degrees 60degrees -->
+            </body>
           </body>
         </body>
       </body>
@@ -67,6 +95,9 @@
     <exclude body1="motor_box" body2="gimbal_structure"/>
     <exclude body1="motor_box" body2="palm"/>
     <exclude body1="gimbal_structure" body2="palm"/>
+    <exclude body1="palm" body2="thumb_pivot"/>
+    <exclude body1="palm" body2="pinkie_pivot"/>
+    <exclude body1="thumb_pivot" body2="pinkie_pivot"/>
   </contact>
 
   <tendon>
@@ -92,9 +123,9 @@
     <position name="pinkie_tip" joint="pinkie_tip"/>
     <position name="pinkie_curl" joint="pinkie_curl"/>
     <position name="pinkie_pitch" joint="pinkie_pitch"/>
-    <position name="pinkie_yaw" joint="pinkie_yaw"/>
-    <position name="pinkie_abduct" joint="pinkie_abduct"/>
-    <position name="thumb_abduct" joint="thumb_abduct"/>  -->
+    <position name="pinkie_yaw" joint="pinkie_yaw"/> -->
+    <position name="pinkie_abduct" joint="pinkie_abduct" kp="0.4" ctrlrange="-0.261799 1.309" forcerange="-0.4 0.4"/><!-- -15degrees 75degrees -->
+    <position name="thumb_abduct" joint="thumb_abduct" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="wrist_yaw" joint="wrist_yaw" kp="0.4" ctrlrange="-0.523599 0.523599" forcerange="-0.8 0.8"/><!-- -30degrees 30degrees -->
     <position name="wrist_pitch" joint="wrist_pitch" kp="0.4" ctrlrange="-0.698132 1.22173" forcerange="-0.8 0.8"/><!-- -40degrees 70degrees -->
     <position name="wrist_roll" joint="wrist_roll" kp="0.6" ctrlrange="-1.309 1.309" forcerange="-1.0 1.0"/><!-- -75degrees 75degrees -->
