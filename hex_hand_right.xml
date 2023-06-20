@@ -18,7 +18,7 @@
       <mesh scale="0.001 0.001 0.001"/>
     </default>
 
-    <!-- Settings for range limited hinge joints with constraints tuned for 0.5Nm torque levels.
+    <!-- Settings for range limited hinge joints with constraints tuned for 0.5Nm torque levels and about half a circle of range.
       Use a large damping coefficient to prevent oscillations.
       Use a large solimp to prevent the joint from overshooting the target position.
         Expecting format `dmin, dmax, width, midpoint, power`.
@@ -36,6 +36,7 @@
     </default>
   </default>
 
+  <!-- Link the 3D model files. -->
   <asset>
     <mesh class="millimeter_units" file="gimbal_structure.stl"/>
     <mesh class="millimeter_units" file="knuckle_gimbal.stl"/>
@@ -51,6 +52,7 @@
     <mesh class="millimeter_units" file="tip.stl"/>
   </asset>
 
+  <!-- Start of model spec. -->
   <worldbody>
     <!-- The mounting peg next to the elbow joint is the ground reference for the hand. -->
     <body name="mount_peg" pos="0 0 0">
@@ -90,6 +92,7 @@
     
   </worldbody>
 
+  <!-- Exclude additional closeby bodies. We're using the convex hull for collisions so many pieces intersect in the normal pose. -->
   <contact>
     <exclude body1="mount_peg" body2="motor_box"/>
     <exclude body1="motor_box" body2="gimbal_structure"/>
@@ -103,6 +106,7 @@
   <tendon>
   </tendon>
 
+  <!-- Name, range and force settings for the actuators. -->
   <actuator>
 <!--     <position name="thumb_tip" joint="thumb_tip"/>
     <position name="thumb_curl" joint="thumb_curl"/>
