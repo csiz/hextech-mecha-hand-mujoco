@@ -16,6 +16,7 @@ integrated sensors. The total set of inputs and outputs for the robot hand is:
 * 20 driven joints with torque sensors on the motors.
 * 5 passive joints linked by a spring mechanism providing torque sensing for the fingertips.
 * 24 force sensors on the fingertips and palm (4 around the each fingertip and 4 in the palm).
+* 1 accelerometer in the forearm.
 
 In the physical hand the 20 motor channels can be commanded by either position seeking with 
 configurable PID parameters. The custom motor driver implements current feedback and can finely 
