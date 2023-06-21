@@ -23,16 +23,20 @@
       Use a large solimp to prevent the joint from overshooting the target position.
         Expecting format `dmin, dmax, width, midpoint, power`.
         Need large dmin and dmax to counter the actuator torque, use values up to 5Nm.
-        Let the width be 0.05 radians, the default is a bit too sharp causes a lot of bouncing.
-        Set the midpoint to 0.1 of width.
+        Let the width be 0.05 radians (3degrees), the default is a bit too sharp causes a lot of bouncing.
+        Set the midpoint to 0.2 of width, fairly sharp constraint.
         Set the power to 4 to have the impedance increase quickly after the midpoint.
       Use the default solref, but set it explicitly to be aware of solver config.
         Expecting format `timeconst, dampratio`.
-        Keep damping ratio at 1 for critical damping.
-        Keep timeconst at 0.02s which is 10 times higher than the default timestep.
+        Keep damping ratio at 0.8 for under damping.
+        Keep timeconst at 0.01s which is 5 times higher than the default timestep; timeconst deterimines the acceleration imposed by the constraint.
     -->
     <default class="limited_joint">
-      <joint damping="0.1" solreflimit="0.02 1" solimplimit="0.8 5 0.05 0.1 4" limited="true"/>
+      <joint damping="0.05" solreflimit="0.01 0.8" solimplimit="0.8 4 0.05 0.2 4" limited="true"/>
+    </default>
+
+    <default class="tip_spring_rod_constraint">
+      <equality solimp="0 1 0.001 0.5 2" solref="0.005 0.2"/>
     </default>
   </default>
 
@@ -100,8 +104,14 @@
                     <!-- The tip axis joint is 75mm from the yaw axis for the stubbier finger. -->
                     <body name="thumb_tip" pos="0 0 0">
                       <geom type="mesh" mesh="tip" mass="0.015"/>
-                      <joint name="thumb_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+                      <joint name="thumb_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.8326" damping="0.01"/><!-- 0degrees 105degrees -->
                     </body>
+                  </body>
+                
+                  <!-- The tip is driven by a 4 linkage bar where one of the bars is a springy plastic piece. The linkage chain is completed with equality constraints. -->
+                  <body name="thumb_spring_rod" pos="0 0.005 0">
+                    <geom type="mesh" mesh="tip_spring_rod" mass="0.002"/>
+                    <joint name="thumb_spring_rod" class="limited_joint" axis="1 0 0" pos="0 -0.050728 0.005728" range="0 1.5708"/><!-- 0degrees 90degrees -->
                   </body>
                 </body>
               </body>
@@ -121,13 +131,19 @@
                 <!-- The joint is at 50mm from the finger yaw axis. -->
                 <body name="index_middle" pos="0 0 0">
                   <geom type="mesh" mesh="middle_segment" mass="0.013"/>
-                  <joint name="index_curl" class="limited_joint" axis="1 0 0" pos="0 -0.050 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+                  <joint name="index_curl" class="limited_joint" axis="1 0 0" pos="0 -0.045 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
 
                   <!-- The tip axis joint is 80mm from the yaw axis for the finger. -->
                   <body name="index_tip" pos="0 0 0">
                     <geom type="mesh" mesh="tip" mass="0.015"/>
-                    <joint name="index_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+                    <joint name="index_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.8326" damping="0.01"/><!-- 0degrees 105degrees -->
                   </body>
+                </body>
+
+                <!-- The tip is driven by a 4 linkage bar where one of the bars is a springy plastic piece. The linkage chain is completed with equality constraints. -->
+                <body name="index_spring_rod" pos="0 0 0">
+                  <geom type="mesh" mesh="tip_spring_rod" mass="0.002"/>
+                  <joint name="index_spring_rod" class="limited_joint" axis="1 0 0" pos="0 -0.050728 0.005728" range="0 1.5708"/><!-- 0degrees 90degrees -->
                 </body>
               </body>
             </body>
@@ -145,13 +161,19 @@
                 <!-- The joint is at 50mm from the finger yaw axis. -->
                 <body name="middle_middle" pos="0 0 0">
                   <geom type="mesh" mesh="middle_segment" mass="0.013"/>
-                  <joint name="middle_curl" class="limited_joint" axis="1 0 0" pos="0 -0.050 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+                  <joint name="middle_curl" class="limited_joint" axis="1 0 0" pos="0 -0.045 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
 
                   <!-- The tip axis joint is 80mm from the yaw axis for the finger. -->
                   <body name="middle_tip" pos="0 0 0">
                     <geom type="mesh" mesh="tip" mass="0.015"/>
-                    <joint name="middle_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+                    <joint name="middle_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.8326" damping="0.01"/><!-- 0degrees 105degrees -->
                   </body>
+                </body>
+
+                <!-- The tip is driven by a 4 linkage bar where one of the bars is a springy plastic piece. The linkage chain is completed with equality constraints. -->
+                <body name="middle_spring_rod" pos="0 0 0">
+                  <geom type="mesh" mesh="tip_spring_rod" mass="0.002"/>
+                  <joint name="middle_spring_rod" class="limited_joint" axis="1 0 0" pos="0 -0.050728 0.005728" range="0 1.5708"/><!-- 0degrees 90degrees -->
                 </body>
               </body>
             </body>
@@ -169,13 +191,19 @@
                 <!-- The joint is at 50mm from the finger yaw axis. -->
                 <body name="ring_middle" pos="0 0 0">
                   <geom type="mesh" mesh="middle_segment" mass="0.013"/>
-                  <joint name="ring_curl" class="limited_joint" axis="1 0 0" pos="0 -0.050 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+                  <joint name="ring_curl" class="limited_joint" axis="1 0 0" pos="0 -0.045 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
 
                   <!-- The tip axis joint is 80mm from the yaw axis for the finger. -->
                   <body name="ring_tip" pos="0 0 0">
                     <geom type="mesh" mesh="tip" mass="0.015"/>
-                    <joint name="ring_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+                    <joint name="ring_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.8326" damping="0.01"/><!-- 0degrees 105degrees -->
                   </body>
+                </body>
+
+                <!-- The tip is driven by a 4 linkage bar where one of the bars is a springy plastic piece. The linkage chain is completed with equality constraints. -->
+                <body name="ring_spring_rod" pos="0 0 0">
+                  <geom type="mesh" mesh="tip_spring_rod" mass="0.002"/>
+                  <joint name="ring_spring_rod" class="limited_joint" axis="1 0 0" pos="0 -0.050728 0.005728" range="0 1.5708"/><!-- 0degrees 90degrees -->
                 </body>
               </body>
             </body>
@@ -203,8 +231,14 @@
                     <!-- The tip axis joint is 75mm from the yaw axis for the stubbier pinkie finger. -->
                     <body name="pinkie_tip" pos="0 0 0">
                       <geom type="mesh" mesh="tip" mass="0.015"/>
-                      <joint name="pinkie_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+                      <joint name="pinkie_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.8326" damping="0.01"/><!-- 0degrees 105degrees -->
                     </body>
+                  </body>
+
+                  <!-- The tip is driven by a 4 linkage bar where one of the bars is a springy plastic piece. The linkage chain is completed with equality constraints. -->
+                  <body name="pinkie_spring_rod" pos="0 0.005 0">
+                    <geom type="mesh" mesh="tip_spring_rod" mass="0.002"/>
+                    <joint name="pinkie_spring_rod" class="limited_joint" axis="1 0 0" pos="0 -0.050728 0.005728" range="0 1.5708"/><!-- 0degrees 90degrees -->
                   </body>
                 </body>
               </body>
@@ -217,6 +251,14 @@
     </body>
     
   </worldbody>
+
+  <equality>
+    <connect name="thumb_tip_driver" class="tip_spring_rod_constraint" body1="thumb_tip" body2="thumb_spring_rod" anchor="0 -0.078728 -0.005728"/>
+    <connect name="index_tip_driver" class="tip_spring_rod_constraint" body1="index_tip" body2="index_spring_rod" anchor="0 -0.078728 -0.005728"/>
+    <connect name="middle_tip_driver" class="tip_spring_rod_constraint" body1="middle_tip" body2="middle_spring_rod" anchor="0 -0.078728 -0.005728"/>
+    <connect name="ring_tip_driver" class="tip_spring_rod_constraint" body1="ring_tip" body2="ring_spring_rod" anchor="0 -0.078728 -0.005728"/>
+    <connect name="pinkie_tip_driver" class="tip_spring_rod_constraint" body1="pinkie_tip" body2="pinkie_spring_rod" anchor="0 -0.078728 -0.005728"/>
+  </equality>
 
   <!-- Exclude additional closeby bodies. We're using the convex hull for collisions so many pieces intersect in the normal pose. -->
   <contact>
@@ -242,6 +284,22 @@
     <exclude body1="pinkie_pivot" body2="pinkie_knuckle"/>
     <exclude body1="pinkie_pivot" body2="pinkie_proximal"/>
     <exclude body1="pinkie_knuckle" body2="pinkie_proximal"/>
+
+
+    <exclude body1="thumb_spring_rod" body2="thumb_middle"/>
+    <exclude body1="thumb_spring_rod" body2="thumb_tip"/>
+
+    <exclude body1="index_spring_rod" body2="index_middle"/>
+    <exclude body1="index_spring_rod" body2="index_tip"/>
+    
+    <exclude body1="middle_spring_rod" body2="middle_middle"/>
+    <exclude body1="middle_spring_rod" body2="middle_tip"/>
+
+    <exclude body1="ring_spring_rod" body2="ring_middle"/>
+    <exclude body1="ring_spring_rod" body2="ring_tip"/>
+
+    <exclude body1="pinkie_spring_rod" body2="pinkie_middle"/>
+    <exclude body1="pinkie_spring_rod" body2="pinkie_tip"/>
   </contact>
 
   <tendon>
@@ -249,23 +307,18 @@
 
   <!-- Name, range and force settings for the actuators. -->
   <actuator>
-    <position name="thumb_tip" joint="thumb_tip" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="thumb_curl" joint="thumb_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="thumb_pitch" joint="thumb_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="thumb_yaw" joint="thumb_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.6 0.6"/><!-- -40degrees 40degrees -->
-    <position name="index_tip" joint="index_tip" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="index_curl" joint="index_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="index_pitch" joint="index_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="index_yaw" joint="index_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.6 0.6"/><!-- -40degrees 40degrees -->
-    <position name="middle_tip" joint="middle_tip" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="middle_curl" joint="middle_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="middle_pitch" joint="middle_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="middle_yaw" joint="middle_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.6 0.6"/><!-- -40degrees 40degrees -->
-    <position name="ring_tip" joint="ring_tip" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="ring_curl" joint="ring_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="ring_pitch" joint="ring_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="ring_yaw" joint="ring_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.6 0.6"/><!-- -40degrees 40degrees -->
-    <position name="pinkie_tip" joint="pinkie_tip" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="pinkie_curl" joint="pinkie_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="pinkie_pitch" joint="pinkie_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="pinkie_yaw" joint="pinkie_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.6 0.6"/><!-- -40degrees 40degrees -->
