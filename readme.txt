@@ -1,4 +1,9 @@
-MuJoCo model for Hex Robotics mechahand: https://www.youtube.com/shorts/kJ4OLfqDy5U
+Hex Robotics Mechahand Model
+============================
+
+MuJoCo model for Hex Robotics mechahand v13: https://www.youtube.com/shorts/kJ4OLfqDy5U
+
+The MJCF `hex_hand_right.xml` describes the mechanics of the (right handed) robot hand in Meter Killogram Second (MKS) units.
 
 This dextrous robot hand attempts to mimic a human hand in movement degrees of freedom and 
 integrated sensors. The total set of inputs and outputs for the robot hand is:
@@ -20,5 +25,3 @@ In the simulated hand the joints are simplified and driven directly via the posi
 simplified model does not (yet) accurately model the tendon flexion and spring extension mechanism
 nor the slight change in tendon lengths as the wrist rotates. In the MJCF model the joint torque 
 values are accurate for the flexion movement but the finger extension is much weaker on the real robot.
-
-The MJCF `hex_hand_right.xml` describes the mechanics of the robot hand in Meter Killogram Second (MKS) units.
