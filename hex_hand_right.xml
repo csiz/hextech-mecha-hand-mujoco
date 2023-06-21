@@ -1,3 +1,5 @@
+<!-- Hexrobotics.ai MJCF model for the hextech mechahand v13. -->
+
 <mujoco model="hexrobotics_mechahand_right">
   <compiler angle="radian" meshdir="assets" autolimits="true" eulerseq="xyz"/>
   
