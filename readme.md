@@ -3,6 +3,8 @@ Hex Robotics Mechahand Model
 
 MuJoCo model for Hex Robotics mechahand v13: https://www.youtube.com/shorts/kJ4OLfqDy5U
 
+![Screenshot of robot hand model in MuJoCo.](/assets/hexrobotics_mujoco_screenshot.png)
+
 The MJCF `hex_hand_right.xml` describes the mechanics of the (right handed) robot hand in Meter Killogram Second (MKS) units.
 
 This dextrous robot hand attempts to mimic a human hand in movement degrees of freedom and 
