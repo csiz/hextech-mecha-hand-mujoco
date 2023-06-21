@@ -73,44 +73,144 @@
 
           <!-- The third hinge joint drives the yaw of the palm. -->  
           <body name="palm" pos="0 -0.005 0">
-            <geom type="mesh" mesh="palm"/>
+            <geom type="mesh" mesh="palm" mass="0.060"/>
             <joint name="wrist_yaw" class="limited_joint" axis="0 0 1" pos="0 0.005 0" range="-0.349066 0.349066"/><!-- -20degrees 20degrees -->
 
             <!-- The thumb pivot is an extra joint to allow the thumb to be opposable. The joint is on axis at 15 degree angle to the center line (the middle finger line). -->
             <body name="thumb_pivot" pos="0 0 0">
-              <geom type="mesh" mesh="thumb_pivot"/>
+              <geom type="mesh" mesh="thumb_pivot" mass="0.010"/>
               <joint name="thumb_abduct" class="limited_joint" axis="-0.25882 0.96593 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+            
+              <!-- The thumb starts at 55mm from the palm origin and an angle of 45 degrees to the center line, followed by twisting 30 degrees around the finger axis. -->
+              <body name="thumb_knuckle" pos="0.03889 -0.03889 0" euler="-0.3875967 0.3613671 0.857072 "> 
+                <!-- The euler params are the result of applying 2 rotations, also specified by XYZ euler: 0 0 45degeers; 0 30degrees 0. -->
+                <geom type="mesh" mesh="knuckle_gimbal" mass="0.005"/>
+                <joint name="thumb_yaw" class="limited_joint" axis="0 0 1" range="-0.523599 0.523599"/><!-- 30degrees 30degrees -->
+
+                <!-- The thumb uses the shorter proximal segment. The axis of the pitch joint is 15mm offset from the yaw axis, due to sensor space constraints. --> 
+                <body name="thumb_proximal" pos="0 0 0">
+                  <geom type="mesh" mesh="squash_proximal" mass="0.025"/>
+                  <joint name="thumb_pitch" class="limited_joint" axis="1 0 0" pos="0 -0.015 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+
+                  <!-- The shorter middle segment means the middle segment needs to be offset by 5mm. The joint is at 45mm from the finger yaw axis. -->
+                  <body name="thumb_middle" pos="0 0.005 0">
+                    <geom type="mesh" mesh="middle_segment" mass="0.013"/>
+                    <joint name="thumb_curl" class="limited_joint" axis="1 0 0" pos="0 -0.045 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+
+                    <!-- The tip axis joint is 75mm from the yaw axis for the stubbier finger. -->
+                    <body name="thumb_tip" pos="0 0 0">
+                      <geom type="mesh" mesh="tip" mass="0.015"/>
+                      <joint name="thumb_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+                    </body>
+                  </body>
+                </body>
+              </body>
+            
+            </body>
+
+            <!-- The index starts at 90mm from the palm origin and an angle of 15 degrees to the center line. -->
+            <body name="index_knuckle" pos="0.02329 -0.08693 0" euler="0 0 0.261799">
+              <geom type="mesh" mesh="knuckle_gimbal" mass="0.005"/>
+              <joint name="index_yaw" class="limited_joint" axis="0 0 1" range="-0.523599 0.523599"/><!-- 30degrees 30degrees -->
+
+              <!-- The axis of the pitch joint is 15mm offset from the yaw axis, due to sensor space constraints. --> 
+              <body name="index_proximal" pos="0 0 0">
+                <geom type="mesh" mesh="proximal" mass="0.027"/>
+                <joint name="index_pitch" class="limited_joint" axis="1 0 0" pos="0 -0.015 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+
+                <!-- The joint is at 50mm from the finger yaw axis. -->
+                <body name="index_middle" pos="0 0 0">
+                  <geom type="mesh" mesh="middle_segment" mass="0.013"/>
+                  <joint name="index_curl" class="limited_joint" axis="1 0 0" pos="0 -0.050 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+
+                  <!-- The tip axis joint is 80mm from the yaw axis for the finger. -->
+                  <body name="index_tip" pos="0 0 0">
+                    <geom type="mesh" mesh="tip" mass="0.015"/>
+                    <joint name="index_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+                  </body>
+                </body>
+              </body>
+            </body>
+
+            <!-- The middle starts at 90mm from the palm origin and is aligned with the center line. -->
+            <body name="middle_knuckle" pos="0 -0.090 0" euler="0 0 0">
+              <geom type="mesh" mesh="knuckle_gimbal" mass="0.005"/>
+              <joint name="middle_yaw" class="limited_joint" axis="0 0 1" range="-0.523599 0.523599"/><!-- 30degrees 30degrees -->
+
+              <!-- The axis of the pitch joint is 15mm offset from the yaw axis, due to sensor space constraints. --> 
+              <body name="middle_proximal" pos="0 0 0">
+                <geom type="mesh" mesh="proximal" mass="0.027"/>
+                <joint name="middle_pitch" class="limited_joint" axis="1 0 0" pos="0 -0.015 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+
+                <!-- The joint is at 50mm from the finger yaw axis. -->
+                <body name="middle_middle" pos="0 0 0">
+                  <geom type="mesh" mesh="middle_segment" mass="0.013"/>
+                  <joint name="middle_curl" class="limited_joint" axis="1 0 0" pos="0 -0.050 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+
+                  <!-- The tip axis joint is 80mm from the yaw axis for the finger. -->
+                  <body name="middle_tip" pos="0 0 0">
+                    <geom type="mesh" mesh="tip" mass="0.015"/>
+                    <joint name="middle_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+                  </body>
+                </body>
+              </body>
+            </body>
+
+            <!-- The ring finger starts at 90mm from the palm origin and an angle of 15 degrees to the center line. -->
+            <body name="ring_knuckle" pos="-0.02329 -0.08693 0" euler="0 0 -0.261799">
+              <geom type="mesh" mesh="knuckle_gimbal" mass="0.005"/>
+              <joint name="ring_yaw" class="limited_joint" axis="0 0 1" range="-0.523599 0.523599"/><!-- 30degrees 30degrees -->
+
+              <!-- The axis of the pitch joint is 15mm offset from the yaw axis, due to sensor space constraints. --> 
+              <body name="ring_proximal" pos="0 0 0">
+                <geom type="mesh" mesh="proximal" mass="0.027"/>
+                <joint name="ring_pitch" class="limited_joint" axis="1 0 0" pos="0 -0.015 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+
+                <!-- The joint is at 50mm from the finger yaw axis. -->
+                <body name="ring_middle" pos="0 0 0">
+                  <geom type="mesh" mesh="middle_segment" mass="0.013"/>
+                  <joint name="ring_curl" class="limited_joint" axis="1 0 0" pos="0 -0.050 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+
+                  <!-- The tip axis joint is 80mm from the yaw axis for the finger. -->
+                  <body name="ring_tip" pos="0 0 0">
+                    <geom type="mesh" mesh="tip" mass="0.015"/>
+                    <joint name="ring_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
+                  </body>
+                </body>
+              </body>
             </body>
 
             <!-- The pinkie pivot functions similar to the thumb pivot and makes the pinkie opposable. It's simmetric with the thumb pivot at 15 degrees angle to the center line. -->
             <body name="pinkie_pivot" pos="0 0 0">
-              <geom type="mesh" mesh="pinkie_pivot"/>
+              <geom type="mesh" mesh="pinkie_pivot" mass="0.010"/>
               <joint name="pinkie_abduct" class="limited_joint" axis="-0.25882 -0.96593 0" range="0 1.0472"/><!-- 0degrees 60degrees -->
 
               <!-- The pinkie starts at 80mm from the palm origin and an angle of 30 degrees to the center line. -->
               <body name="pinkie_knuckle" pos="-0.04 -0.06928 0" euler="0 0 -0.523599">
-                <geom type="mesh" mesh="knuckle_gimbal"/>
+                <geom type="mesh" mesh="knuckle_gimbal" mass="0.005"/>
                 <joint name="pinkie_yaw" class="limited_joint" axis="0 0 1" range="-0.523599 0.523599"/><!-- 30degrees 30degrees -->
 
                 <!-- The pinkie uses the shorter proximal segment. The axis of the pitch joint is 15mm offset from the yaw axis, due to sensor space constraints. --> 
                 <body name="pinkie_proximal" pos="0 0 0">
-                  <geom type="mesh" mesh="squash_proximal"/>
+                  <geom type="mesh" mesh="squash_proximal" mass="0.025"/>
                   <joint name="pinkie_pitch" class="limited_joint" axis="1 0 0" pos="0 -0.015 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
 
                   <!-- The shorter middle segment means the middle segment needs to be offset by 5mm. The joint is at 45mm from the finger yaw axis. -->
                   <body name="pinkie_middle" pos="0 0.005 0">
-                    <geom type="mesh" mesh="middle_segment"/>
+                    <geom type="mesh" mesh="middle_segment" mass="0.013"/>
                     <joint name="pinkie_curl" class="limited_joint" axis="1 0 0" pos="0 -0.045 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
 
                     <!-- The tip axis joint is 75mm from the yaw axis for the stubbier pinkie finger. -->
                     <body name="pinkie_tip" pos="0 0 0">
-                      <geom type="mesh" mesh="tip"/>
+                      <geom type="mesh" mesh="tip" mass="0.015"/>
                       <joint name="pinkie_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
                     </body>
                   </body>
                 </body>
               </body>
             </body>
+
+            
           </body>
         </body>
       </body>
@@ -126,9 +226,19 @@
     <exclude body1="gimbal_structure" body2="palm"/>
     <exclude body1="palm" body2="thumb_pivot"/>
     <exclude body1="palm" body2="pinkie_pivot"/>
+    <exclude body1="palm" body2="thumb_knuckle"/>
+    <exclude body1="palm" body2="thumb_proximal"/>
+    <exclude body1="palm" body2="thumb_middle"/>
+    <exclude body1="palm" body2="index_proximal"/>
+    <exclude body1="palm" body2="middle_proximal"/>
+    <exclude body1="palm" body2="ring_proximal"/> 
     <exclude body1="palm" body2="pinkie_knuckle"/>
     <exclude body1="palm" body2="pinkie_proximal"/>
+    <exclude body1="palm" body2="pinkie_middle"/>
     <exclude body1="thumb_pivot" body2="pinkie_pivot"/>
+    <exclude body1="thumb_pivot" body2="thumb_knuckle"/>
+    <exclude body1="thumb_pivot" body2="thumb_proximal"/>
+    <exclude body1="thumb_knuckle" body2="thumb_proximal"/>
     <exclude body1="pinkie_pivot" body2="pinkie_knuckle"/>
     <exclude body1="pinkie_pivot" body2="pinkie_proximal"/>
     <exclude body1="pinkie_knuckle" body2="pinkie_proximal"/>
@@ -139,30 +249,30 @@
 
   <!-- Name, range and force settings for the actuators. -->
   <actuator>
-<!--     <position name="thumb_tip" joint="thumb_tip"/>
-    <position name="thumb_curl" joint="thumb_curl"/>
-    <position name="thumb_pitch" joint="thumb_pitch"/>
-    <position name="thumb_yaw" joint="thumb_yaw"/>
-    <position name="index_tip" joint="index_tip"/>
-    <position name="index_curl" joint="index_curl"/>
-    <position name="index_pitch" joint="index_pitch"/>
-    <position name="index_yaw" joint="index_yaw"/>
-    <position name="middle_tip" joint="middle_tip"/>
-    <position name="middle_curl" joint="middle_curl"/>
-    <position name="middle_pitch" joint="middle_pitch"/>
-    <position name="middle_yaw" joint="middle_yaw"/>
-    <position name="ring_tip" joint="ring_tip"/>
-    <position name="ring_curl" joint="ring_curl"/>
-    <position name="ring_pitch" joint="ring_pitch"/>
-    <position name="ring_yaw" joint="ring_yaw"/> -->
+    <position name="thumb_tip" joint="thumb_tip" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
+    <position name="thumb_curl" joint="thumb_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
+    <position name="thumb_pitch" joint="thumb_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
+    <position name="thumb_yaw" joint="thumb_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.6 0.6"/><!-- -40degrees 40degrees -->
+    <position name="index_tip" joint="index_tip" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
+    <position name="index_curl" joint="index_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
+    <position name="index_pitch" joint="index_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
+    <position name="index_yaw" joint="index_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.6 0.6"/><!-- -40degrees 40degrees -->
+    <position name="middle_tip" joint="middle_tip" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
+    <position name="middle_curl" joint="middle_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
+    <position name="middle_pitch" joint="middle_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
+    <position name="middle_yaw" joint="middle_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.6 0.6"/><!-- -40degrees 40degrees -->
+    <position name="ring_tip" joint="ring_tip" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
+    <position name="ring_curl" joint="ring_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
+    <position name="ring_pitch" joint="ring_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
+    <position name="ring_yaw" joint="ring_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.6 0.6"/><!-- -40degrees 40degrees -->
     <position name="pinkie_tip" joint="pinkie_tip" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="pinkie_curl" joint="pinkie_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="pinkie_pitch" joint="pinkie_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="pinkie_yaw" joint="pinkie_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.6 0.6"/><!-- -40degrees 40degrees -->
     <position name="pinkie_abduct" joint="pinkie_abduct" kp="0.4" ctrlrange="-0.261799 1.309" forcerange="-0.4 0.4"/><!-- -15degrees 75degrees -->
     <position name="thumb_abduct" joint="thumb_abduct" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
-    <position name="wrist_yaw" joint="wrist_yaw" kp="0.4" ctrlrange="-0.523599 0.523599" forcerange="-0.8 0.8"/><!-- -30degrees 30degrees -->
-    <position name="wrist_pitch" joint="wrist_pitch" kp="0.4" ctrlrange="-0.698132 1.22173" forcerange="-0.8 0.8"/><!-- -40degrees 70degrees -->
-    <position name="wrist_roll" joint="wrist_roll" kp="0.6" ctrlrange="-1.309 1.309" forcerange="-1.0 1.0"/><!-- -75degrees 75degrees -->
+    <position name="wrist_yaw" joint="wrist_yaw" kp="1.5" ctrlrange="-0.523599 0.523599" forcerange="-0.8 0.8"/><!-- -30degrees 30degrees -->
+    <position name="wrist_pitch" joint="wrist_pitch" kp="1.5" ctrlrange="-0.698132 1.22173" forcerange="-0.8 0.8"/><!-- -40degrees 70degrees -->
+    <position name="wrist_roll" joint="wrist_roll" kp="2.0" ctrlrange="-1.309 1.309" forcerange="-1.0 1.0"/><!-- -75degrees 75degrees -->
   </actuator>
 </mujoco>
