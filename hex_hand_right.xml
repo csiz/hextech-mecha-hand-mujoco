@@ -307,7 +307,21 @@
   <tendon>
   </tendon>
 
-  <!-- Name, range and force settings for the actuators. -->
+  <!-- Name, range and force settings for the actuators. 
+
+  The actuators on the physical robot run a position PID loop with configurable parameters 
+  and also have current/torque control via an on-board current PID loop. The actuators can be set
+  to a target position with a torque limit or to a target torque level. The driver limits the
+  continous motor current to prevent overheating.
+
+  In MuJoCo I think the control logic should just use the actuator target position.
+  
+  In total there are the following actuators:
+    * 20 position actuators
+      - 3 per finger: curl (flexing the finger tip), pitch (flexing the whole finger), yaw (moving the finger sideways)
+      - 2 extra for thumb and pinkie opposable movement
+      - 3 for the wrist: pitch, yaw, roll
+  -->
   <actuator>
     <position name="thumb_curl" joint="thumb_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="thumb_pitch" joint="thumb_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
@@ -330,4 +344,86 @@
     <position name="wrist_pitch" joint="wrist_pitch" kp="1.5" ctrlrange="-0.698132 1.22173" forcerange="-0.8 0.8"/><!-- -40degrees 70degrees -->
     <position name="wrist_roll" joint="wrist_roll" kp="2.0" ctrlrange="-1.309 1.309" forcerange="-1.0 1.0"/><!-- -75degrees 75degrees -->
   </actuator>
+
+  <!-- Define the sensors accessible from the robot hand sensor suite.
+  
+  MuJoCo offers detailed information about all the joints, but not all of those are available 
+  on a physical robot unless there are sensors to measure them. The sensors defined below
+  represent the measurements available from the physical robot. There are on axis position
+  sensors for every joint accurate to 0.1 degrees (within load tolerance). There are also
+  force sensors on the fingertips and the palm integrated into the circuit which measures
+  position of the fingers. The actuator motors on the physical robot have current feedback
+  and can therefore be calibrated to measure output torque. Finally the finger tip passive
+  joint is connected via a 4 bar linkage, with a springy 4th link, to the finger curl joint.
+  This enables the measurement of torque or the finger tip joint. In the MuJoCo model this
+  is simulated using the equality constraint so I'm not sure if the same calculation applies
+  as in the real robot, however I expose the finger tip torque directly as measured by the
+  MoJoCo torque sensor between finger tip segment and finger middle segment.
+
+  In total there are the following sensors:
+    * 25 rotational position sensors
+      - 4 per finger; 5 fingers: tip (passive joint), curl, pitch, yaw; thumb, index, middle, ring, pinkie.
+      - 2 extra for thumb and pinkie opposable movement.
+      - 3 for wrist: yaw, pitch, roll 
+    * 24 force sensors
+      - 4 per finger: finger_nail, finger_tip, finger_left, finger_right
+      - 4 for palm: palm_inside_left, palm_inside_right, palm_outside_left, palm_outside_right
+    * 5 finger tip torque sensors
+      - 1 per finger: thumb, index, middle, ring, pinkie
+    * 20 current/torque sensors
+      - 3 per finger: curl, pitch, yaw
+      - 2 for thumb and pinkie opposable movement
+      - 3 for wrist: yaw, pitch, roll
+    * 1 accelerometer on the forearm
+  -->
+  <sensor>
+    <!-- Copy joint positions as we have on-axis sensors to measure them. -->
+    <jointpos name="thumb_tip" joint="thumb_tip"/>
+    <jointpos name="thumb_curl" joint="thumb_curl"/>
+    <jointpos name="thumb_pitch" joint="thumb_pitch"/>
+    <jointpos name="thumb_yaw" joint="thumb_yaw"/>
+    <jointpos name="index_tip" joint="index_tip"/>
+    <jointpos name="index_curl" joint="index_curl"/>
+    <jointpos name="index_pitch" joint="index_pitch"/>
+    <jointpos name="index_yaw" joint="index_yaw"/>
+    <jointpos name="middle_tip" joint="middle_tip"/>
+    <jointpos name="middle_curl" joint="middle_curl"/>
+    <jointpos name="middle_pitch" joint="middle_pitch"/>
+    <jointpos name="middle_yaw" joint="middle_yaw"/>
+    <jointpos name="ring_tip" joint="ring_tip"/>
+    <jointpos name="ring_curl" joint="ring_curl"/>
+    <jointpos name="ring_pitch" joint="ring_pitch"/>
+    <jointpos name="ring_yaw" joint="ring_yaw"/>
+    <jointpos name="pinkie_tip" joint="pinkie_tip"/>
+    <jointpos name="pinkie_curl" joint="pinkie_curl"/>
+    <jointpos name="pinkie_pitch" joint="pinkie_pitch"/>
+    <jointpos name="pinkie_yaw" joint="pinkie_yaw"/>
+    <jointpos name="thumb_abduct" joint="thumb_abduct"/>
+    <jointpos name="pinkie_abduct" joint="pinkie_abduct"/>
+    <jointpos name="wrist_yaw" joint="wrist_yaw"/>
+    <jointpos name="wrist_pitch" joint="wrist_pitch"/>
+    <jointpos name="wrist_roll" joint="wrist_roll"/>
+
+    <!-- Copy actuator forces as there is current feedback for the motors. -->
+    <actuatorfrc name="thumb_curl_frc" actuator="thumb_curl"/>
+    <actuatorfrc name="thumb_pitch_frc" actuator="thumb_pitch"/>
+    <actuatorfrc name="thumb_yaw_frc" actuator="thumb_yaw"/>
+    <actuatorfrc name="index_curl_frc" actuator="index_curl"/>
+    <actuatorfrc name="index_pitch_frc" actuator="index_pitch"/>
+    <actuatorfrc name="index_yaw_frc" actuator="index_yaw"/>
+    <actuatorfrc name="middle_curl_frc" actuator="middle_curl"/>
+    <actuatorfrc name="middle_pitch_frc" actuator="middle_pitch"/>
+    <actuatorfrc name="middle_yaw_frc" actuator="middle_yaw"/>
+    <actuatorfrc name="ring_curl_frc" actuator="ring_curl"/>
+    <actuatorfrc name="ring_pitch_frc" actuator="ring_pitch"/>
+    <actuatorfrc name="ring_yaw_frc" actuator="ring_yaw"/>
+    <actuatorfrc name="pinkie_curl_frc" actuator="pinkie_curl"/>
+    <actuatorfrc name="pinkie_pitch_frc" actuator="pinkie_pitch"/>
+    <actuatorfrc name="pinkie_yaw_frc" actuator="pinkie_yaw"/>
+    <actuatorfrc name="thumb_abduct_frc" actuator="thumb_abduct"/>
+    <actuatorfrc name="pinkie_abduct_frc" actuator="pinkie_abduct"/>
+    <actuatorfrc name="wrist_yaw_frc" actuator="wrist_yaw"/>
+    <actuatorfrc name="wrist_pitch_frc" actuator="wrist_pitch"/>
+    <actuatorfrc name="wrist_roll_frc" actuator="wrist_roll"/>
+  </sensor>
 </mujoco>
