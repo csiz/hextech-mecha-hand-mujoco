@@ -71,6 +71,7 @@
         <inertial mass="0.9" pos="0 0.120 0.010" euler="0 0 1.5708" diaginertia="0.00075 0.00219 0.0024"/>
         <geom type="mesh" mesh="motor_box"/>
         <joint name="wrist_roll" class="limited_joint" axis="0 1 0" range="-1.0472 1.0472"/><!-- -60degrees 60degrees -->
+        <site name="motor_box_IMU" pos="0 0.055 0.030"/>
 
         <!-- The second hinge joint drives the pitch of the palm. -->
         <body name="gimbal_structure" pos="0 0 0">
@@ -81,6 +82,11 @@
           <body name="palm" pos="0 -0.005 0">
             <geom type="mesh" mesh="palm" mass="0.060"/>
             <joint name="wrist_yaw" class="limited_joint" axis="0 0 1" pos="0 0.005 0" range="-0.349066 0.349066"/><!-- -20degrees 20degrees -->
+
+            <site name="palm_inside_left_pressure_sensor" pos="0.014 -0.075 -0.011" type="cylinder" size="0.008 0.001"/>
+            <site name="palm_inside_right_pressure_sensor" pos="-0.014 -0.075 -0.011" type="cylinder" size="0.008 0.001"/>
+            <site name="palm_outside_left_pressure_sensor" pos="0.018 -0.065 0.023" euler="0.0872665 0 0" type="cylinder" size="0.016 0.001"/>
+            <site name="palm_outside_right_pressure_sensor" pos="-0.018 -0.065 0.023" euler="0.0872665 0 0" type="cylinder" size="0.016 0.001"/>
 
             <!-- The thumb pivot is an extra joint to allow the thumb to be opposable. The joint is on axis at 15 degree angle to the center line (the middle finger line). -->
             <body name="thumb_pivot" pos="0 0 0">
@@ -107,6 +113,11 @@
                     <body name="thumb_tip" pos="0 0 0">
                       <geom type="mesh" mesh="tip" mass="0.015"/>
                       <joint name="thumb_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.8326" damping="0.01"/><!-- 0degrees 105degrees -->
+                      <site name="thumb_tip_joint" pos="0 -0.075 0"/>
+                      <site name="thumb_nail_pressure_sensor" pos="0 -0.085 0.0095" type="cylinder" size="0.006 0.001"/>
+                      <site name="thumb_tip_pressure_sensor" pos="0 -0.090 -0.0055" euler="-0.523599 0 0" type="cylinder" size="0.006 0.001"/>
+                      <site name="thumb_left_pressure_sensor" pos="0.007 -0.085 0.002" euler="0 1.5708 0" type="cylinder" size="0.006 0.001"/>
+                      <site name="thumb_right_pressure_sensor" pos="-0.008 -0.085 0.002" euler="0 -1.5708 0" type="cylinder" size="0.006 0.001"/>
                     </body>
                   </body>
                 
@@ -139,6 +150,11 @@
                   <body name="index_tip" pos="0 0 0">
                     <geom type="mesh" mesh="tip" mass="0.015"/>
                     <joint name="index_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.8326" damping="0.01"/><!-- 0degrees 105degrees -->
+                    <site name="index_tip_joint" pos="0 -0.075 0"/>
+                    <site name="index_nail_pressure_sensor" pos="0 -0.085 0.0095" type="cylinder" size="0.006 0.001"/>
+                    <site name="index_tip_pressure_sensor" pos="0 -0.090 -0.0055" euler="-0.523599 0 0" type="cylinder" size="0.006 0.001"/>
+                    <site name="index_left_pressure_sensor" pos="0.007 -0.085 0.002" euler="0 1.5708 0" type="cylinder" size="0.006 0.001"/>
+                    <site name="index_right_pressure_sensor" pos="-0.008 -0.085 0.002" euler="0 -1.5708 0" type="cylinder" size="0.006 0.001"/>
                   </body>
                 </body>
 
@@ -169,6 +185,11 @@
                   <body name="middle_tip" pos="0 0 0">
                     <geom type="mesh" mesh="tip" mass="0.015"/>
                     <joint name="middle_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.8326" damping="0.01"/><!-- 0degrees 105degrees -->
+                    <site name="middle_tip_joint" pos="0 -0.075 0"/>
+                    <site name="middle_nail_pressure_sensor" pos="0 -0.085 0.0095" type="cylinder" size="0.006 0.001"/>
+                    <site name="middle_tip_pressure_sensor" pos="0 -0.090 -0.0055" euler="-0.523599 0 0" type="cylinder" size="0.006 0.001"/>
+                    <site name="middle_left_pressure_sensor" pos="0.007 -0.085 0.002" euler="0 1.5708 0" type="cylinder" size="0.006 0.001"/>
+                    <site name="middle_right_pressure_sensor" pos="-0.008 -0.085 0.002" euler="0 -1.5708 0" type="cylinder" size="0.006 0.001"/>
                   </body>
                 </body>
 
@@ -199,6 +220,11 @@
                   <body name="ring_tip" pos="0 0 0">
                     <geom type="mesh" mesh="tip" mass="0.015"/>
                     <joint name="ring_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.8326" damping="0.01"/><!-- 0degrees 105degrees -->
+                    <site name="ring_tip_joint" pos="0 -0.075 0"/>
+                    <site name="ring_nail_pressure_sensor" pos="0 -0.085 0.0095" type="cylinder" size="0.006 0.001"/>
+                    <site name="ring_tip_pressure_sensor" pos="0 -0.090 -0.0055" euler="-0.523599 0 0" type="cylinder" size="0.006 0.001"/>
+                    <site name="ring_left_pressure_sensor" pos="0.007 -0.085 0.002" euler="0 1.5708 0" type="cylinder" size="0.006 0.001"/>
+                    <site name="ring_right_pressure_sensor" pos="-0.008 -0.085 0.002" euler="0 -1.5708 0" type="cylinder" size="0.006 0.001"/>
                   </body>
                 </body>
 
@@ -234,6 +260,11 @@
                     <body name="pinkie_tip" pos="0 0 0">
                       <geom type="mesh" mesh="tip" mass="0.015"/>
                       <joint name="pinkie_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.8326" damping="0.01"/><!-- 0degrees 105degrees -->
+                      <site name="pinkie_tip_joint" pos="0 -0.075 0"/>
+                      <site name="pinkie_nail_pressure_sensor" pos="0 -0.085 0.0095" type="cylinder" size="0.006 0.001"/>
+                      <site name="pinkie_tip_pressure_sensor" pos="0 -0.090 -0.0055" euler="-0.523599 0 0" type="cylinder" size="0.006 0.001"/>
+                      <site name="pinkie_left_pressure_sensor" pos="0.007 -0.085 0.002" euler="0 1.5708 0" type="cylinder" size="0.006 0.001"/>
+                      <site name="pinkie_right_pressure_sensor" pos="-0.008 -0.085 0.002" euler="0 -1.5708 0" type="cylinder" size="0.006 0.001"/>
                     </body>
                   </body>
 
@@ -268,6 +299,7 @@
     <exclude body1="motor_box" body2="gimbal_structure"/>
     <exclude body1="motor_box" body2="palm"/>
     <exclude body1="gimbal_structure" body2="palm"/>
+
     <exclude body1="palm" body2="thumb_pivot"/>
     <exclude body1="palm" body2="pinkie_pivot"/>
     <exclude body1="palm" body2="thumb_knuckle"/>
@@ -279,6 +311,7 @@
     <exclude body1="palm" body2="pinkie_knuckle"/>
     <exclude body1="palm" body2="pinkie_proximal"/>
     <exclude body1="palm" body2="pinkie_middle"/>
+
     <exclude body1="thumb_pivot" body2="pinkie_pivot"/>
     <exclude body1="thumb_pivot" body2="thumb_knuckle"/>
     <exclude body1="thumb_pivot" body2="thumb_proximal"/>
@@ -287,7 +320,7 @@
     <exclude body1="pinkie_pivot" body2="pinkie_proximal"/>
     <exclude body1="pinkie_knuckle" body2="pinkie_proximal"/>
 
-
+    <!-- All the spring rods pass right through the middle segment so we need to exclude its collisions. -->
     <exclude body1="thumb_spring_rod" body2="thumb_middle"/>
     <exclude body1="thumb_spring_rod" body2="thumb_tip"/>
 
@@ -404,26 +437,74 @@
     <jointpos name="wrist_pitch" joint="wrist_pitch"/>
     <jointpos name="wrist_roll" joint="wrist_roll"/>
 
+    <!-- The robot has integrated force sensors in the palm and fingertips. -->
+    <touch name="thumb_nail_pressure" site="thumb_nail_pressure_sensor"/>
+    <touch name="thumb_tip_pressure" site="thumb_tip_pressure_sensor"/>
+    <touch name="thumb_left_pressure" site="thumb_left_pressure_sensor"/>
+    <touch name="thumb_right_pressure" site="thumb_right_pressure_sensor"/>
+    <touch name="index_nail_pressure" site="index_nail_pressure_sensor"/>
+    <touch name="index_tip_pressure" site="index_tip_pressure_sensor"/>
+    <touch name="index_left_pressure" site="index_left_pressure_sensor"/>
+    <touch name="index_right_pressure" site="index_right_pressure_sensor"/>
+    <touch name="middle_nail_pressure" site="middle_nail_pressure_sensor"/>
+    <touch name="middle_tip_pressure" site="middle_tip_pressure_sensor"/>
+    <touch name="middle_left_pressure" site="middle_left_pressure_sensor"/>
+    <touch name="middle_right_pressure" site="middle_right_pressure_sensor"/>
+    <touch name="ring_nail_pressure" site="ring_nail_pressure_sensor"/>
+    <touch name="ring_tip_pressure" site="ring_tip_pressure_sensor"/>
+    <touch name="ring_left_pressure" site="ring_left_pressure_sensor"/>
+    <touch name="ring_right_pressure" site="ring_right_pressure_sensor"/>
+    <touch name="pinkie_nail_pressure" site="pinkie_nail_pressure_sensor"/>
+    <touch name="pinkie_tip_pressure" site="pinkie_tip_pressure_sensor"/>
+    <touch name="pinkie_left_pressure" site="pinkie_left_pressure_sensor"/>
+    <touch name="pinkie_right_pressure" site="pinkie_right_pressure_sensor"/>
+    <touch name="palm_inside_left_pressure" site="palm_inside_left_pressure_sensor"/>
+    <touch name="palm_inside_right_pressure" site="palm_inside_right_pressure_sensor"/>
+    <touch name="palm_outside_left_pressure" site="palm_outside_left_pressure_sensor"/>
+    <touch name="palm_outside_right_pressure" site="palm_outside_right_pressure_sensor"/>
+
+    <!-- In the real robot we can calculate tip torque based on the elastic constant of
+    the springy 4 bar linkage and the position of rotation sensor for the tip and middle
+    finger segments (distal interphalangeal joint DIP and proximal interphalangeal joint PIP).
+    
+    In the MuJoCo modelwe can directly read the torque between the tip and middle segments.
+
+    Unfortunately I'm not sure if the 4 link bar can be simulated accurately enough to obtain
+    the same behaviour as the real robot in terms of the tip rotation angle differences. A
+    better solution would be to expose the distance used in the equality constraint that connects
+    the tip spring rod and finger tip segment. That option is not available in the default sensors.
+    -->
+    <torque name="thumb_tip_torque" site="thumb_tip_joint"/>
+    <torque name="index_tip_torque" site="index_tip_joint"/>
+    <torque name="middle_tip_torque" site="middle_tip_joint"/>
+    <torque name="ring_tip_torque" site="ring_tip_joint"/>
+    <torque name="pinkie_tip_torque" site="pinkie_tip_joint"/>
+
     <!-- Copy actuator forces as there is current feedback for the motors. -->
-    <actuatorfrc name="thumb_curl_frc" actuator="thumb_curl"/>
-    <actuatorfrc name="thumb_pitch_frc" actuator="thumb_pitch"/>
-    <actuatorfrc name="thumb_yaw_frc" actuator="thumb_yaw"/>
-    <actuatorfrc name="index_curl_frc" actuator="index_curl"/>
-    <actuatorfrc name="index_pitch_frc" actuator="index_pitch"/>
-    <actuatorfrc name="index_yaw_frc" actuator="index_yaw"/>
-    <actuatorfrc name="middle_curl_frc" actuator="middle_curl"/>
-    <actuatorfrc name="middle_pitch_frc" actuator="middle_pitch"/>
-    <actuatorfrc name="middle_yaw_frc" actuator="middle_yaw"/>
-    <actuatorfrc name="ring_curl_frc" actuator="ring_curl"/>
-    <actuatorfrc name="ring_pitch_frc" actuator="ring_pitch"/>
-    <actuatorfrc name="ring_yaw_frc" actuator="ring_yaw"/>
-    <actuatorfrc name="pinkie_curl_frc" actuator="pinkie_curl"/>
-    <actuatorfrc name="pinkie_pitch_frc" actuator="pinkie_pitch"/>
-    <actuatorfrc name="pinkie_yaw_frc" actuator="pinkie_yaw"/>
-    <actuatorfrc name="thumb_abduct_frc" actuator="thumb_abduct"/>
-    <actuatorfrc name="pinkie_abduct_frc" actuator="pinkie_abduct"/>
-    <actuatorfrc name="wrist_yaw_frc" actuator="wrist_yaw"/>
-    <actuatorfrc name="wrist_pitch_frc" actuator="wrist_pitch"/>
-    <actuatorfrc name="wrist_roll_frc" actuator="wrist_roll"/>
+    <actuatorfrc name="thumb_curl_force" actuator="thumb_curl"/>
+    <actuatorfrc name="thumb_pitch_force" actuator="thumb_pitch"/>
+    <actuatorfrc name="thumb_yaw_force" actuator="thumb_yaw"/>
+    <actuatorfrc name="index_curl_force" actuator="index_curl"/>
+    <actuatorfrc name="index_pitch_force" actuator="index_pitch"/>
+    <actuatorfrc name="index_yaw_force" actuator="index_yaw"/>
+    <actuatorfrc name="middle_curl_force" actuator="middle_curl"/>
+    <actuatorfrc name="middle_pitch_force" actuator="middle_pitch"/>
+    <actuatorfrc name="middle_yaw_force" actuator="middle_yaw"/>
+    <actuatorfrc name="ring_curl_force" actuator="ring_curl"/>
+    <actuatorfrc name="ring_pitch_force" actuator="ring_pitch"/>
+    <actuatorfrc name="ring_yaw_force" actuator="ring_yaw"/>
+    <actuatorfrc name="pinkie_curl_force" actuator="pinkie_curl"/>
+    <actuatorfrc name="pinkie_pitch_force" actuator="pinkie_pitch"/>
+    <actuatorfrc name="pinkie_yaw_force" actuator="pinkie_yaw"/>
+    <actuatorfrc name="thumb_abduct_force" actuator="thumb_abduct"/>
+    <actuatorfrc name="pinkie_abduct_force" actuator="pinkie_abduct"/>
+    <actuatorfrc name="wrist_yaw_force" actuator="wrist_yaw"/>
+    <actuatorfrc name="wrist_pitch_force" actuator="wrist_pitch"/>
+    <actuatorfrc name="wrist_roll_force" actuator="wrist_roll"/>
+
+    <!-- The motor driver board on the forearm contains an inertial measurement unit IMU. -->
+    <accelerometer name="accelerometer" site="motor_box_IMU"/>
+    <gyro name="gyro" site="motor_box_IMU"/>
+
   </sensor>
 </mujoco>
