@@ -397,7 +397,7 @@
   MoJoCo torque sensor between finger tip segment and finger middle segment.
 
   In total there are the following sensors:
-    * 25 rotational position sensors
+    * 25 rotational position sensors (and their derived velocities)
       - 4 per finger; 5 fingers: tip (passive joint), curl, pitch, yaw; thumb, index, middle, ring, pinkie.
       - 2 extra for thumb and pinkie opposable movement.
       - 3 for wrist: yaw, pitch, roll 
@@ -439,6 +439,34 @@
     <jointpos name="wrist_yaw" joint="wrist_yaw"/>
     <jointpos name="wrist_pitch" joint="wrist_pitch"/>
     <jointpos name="wrist_roll" joint="wrist_roll"/>
+
+    <!-- Expose velocity alongside position to be friendly to neural net algorithms. -->
+    <jointvel name="thumb_tip_velocity" joint="thumb_tip"/>
+    <jointvel name="thumb_curl_velocity" joint="thumb_curl"/>
+    <jointvel name="thumb_pitch_velocity" joint="thumb_pitch"/>
+    <jointvel name="thumb_yaw_velocity" joint="thumb_yaw"/>
+    <jointvel name="index_tip_velocity" joint="index_tip"/>
+    <jointvel name="index_curl_velocity" joint="index_curl"/>
+    <jointvel name="index_pitch_velocity" joint="index_pitch"/>
+    <jointvel name="index_yaw_velocity" joint="index_yaw"/>
+    <jointvel name="middle_tip_velocity" joint="middle_tip"/>
+    <jointvel name="middle_curl_velocity" joint="middle_curl"/>
+    <jointvel name="middle_pitch_velocity" joint="middle_pitch"/>
+    <jointvel name="middle_yaw_velocity" joint="middle_yaw"/>
+    <jointvel name="ring_tip_velocity" joint="ring_tip"/>
+    <jointvel name="ring_curl_velocity" joint="ring_curl"/>
+    <jointvel name="ring_pitch_velocity" joint="ring_pitch"/>
+    <jointvel name="ring_yaw_velocity" joint="ring_yaw"/>
+    <jointvel name="pinkie_tip_velocity" joint="pinkie_tip"/>
+    <jointvel name="pinkie_curl_velocity" joint="pinkie_curl"/>
+    <jointvel name="pinkie_pitch_velocity" joint="pinkie_pitch"/>
+    <jointvel name="pinkie_yaw_velocity" joint="pinkie_yaw"/>
+    <jointvel name="thumb_abduct_velocity" joint="thumb_abduct"/>
+    <jointvel name="pinkie_abduct_velocity" joint="pinkie_abduct"/>
+    <jointvel name="wrist_yaw_velocity" joint="wrist_yaw"/>
+    <jointvel name="wrist_pitch_velocity" joint="wrist_pitch"/>
+    <jointvel name="wrist_roll_velocity" joint="wrist_roll"/>
+
 
     <!-- The robot has integrated force sensors in the palm and fingertips. -->
     <touch name="thumb_nail_pressure" site="thumb_nail_pressure_sensor"/>
