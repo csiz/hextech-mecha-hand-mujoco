@@ -7,6 +7,8 @@ MuJoCo model for Hex Robotics mechahand v13: https://www.youtube.com/shorts/kJ4O
 
 The MJCF `hex_hand_right.xml` describes the mechanics of the (right handed) robot hand in Meter Killogram Second (MKS) units.
 
+The scene file `hex_scene_right.xml` sets up the robot hand to fidget with an orange egg thing.
+
 This dextrous robot hand attempts to mimic a human hand in movement degrees of freedom and 
 integrated sensors. The total set of inputs and outputs for the robot hand is:
 * 25 degrees of freedom (DOF) with position sensors on each joint.

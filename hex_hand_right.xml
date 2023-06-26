@@ -64,7 +64,7 @@
   <!-- Start of model spec. -->
   <worldbody>
     <!-- The mounting peg next to the elbow joint is the ground reference for the hand. -->
-    <body name="mount_peg" pos="0 0 0">
+    <body name="mount_peg" pos="0 0 0" euler="0 3.141592 0">
       <geom type="mesh" mesh="mount_peg" material="white"/>
 
       <!-- The wrist is a ball joint made of 3 hinge joints. -->
@@ -79,7 +79,7 @@
         <!-- The second hinge joint drives the pitch of the palm. -->
         <body name="gimbal_structure" pos="0 0 0">
           <geom type="mesh" mesh="gimbal_structure" material="white" mass="0.020"/>
-          <joint name="wrist_pitch" class="limited_joint" axis="1 0 0" range="-0.436332 0.959931"/><!-- -25degrees 55degrees -->
+          <joint name="wrist_pitch" class="limited_joint" axis="1 0 0" range="-0.436332 0.959931" ref="-0.35"/><!-- -25degrees 55degrees -->
 
           <!-- The third hinge joint drives the yaw of the palm. -->  
           <body name="palm" pos="0 -0.005 0">
