@@ -359,21 +359,21 @@
       - 3 for the wrist: pitch, yaw, roll
   -->
   <actuator>
-    <position name="thumb_curl" joint="thumb_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
-    <position name="thumb_pitch" joint="thumb_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
-    <position name="thumb_yaw" joint="thumb_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.6 0.6"/><!-- -40degrees 40degrees -->
-    <position name="index_curl" joint="index_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
-    <position name="index_pitch" joint="index_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
-    <position name="index_yaw" joint="index_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.6 0.6"/><!-- -40degrees 40degrees -->
-    <position name="middle_curl" joint="middle_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
-    <position name="middle_pitch" joint="middle_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
-    <position name="middle_yaw" joint="middle_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.6 0.6"/><!-- -40degrees 40degrees -->
-    <position name="ring_curl" joint="ring_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
-    <position name="ring_pitch" joint="ring_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
-    <position name="ring_yaw" joint="ring_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.6 0.6"/><!-- -40degrees 40degrees -->
-    <position name="pinkie_curl" joint="pinkie_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
-    <position name="pinkie_pitch" joint="pinkie_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
-    <position name="pinkie_yaw" joint="pinkie_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.6 0.6"/><!-- -40degrees 40degrees -->
+    <position name="thumb_curl" joint="thumb_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.3 0.3"/><!-- -15degrees 105degrees -->
+    <position name="thumb_pitch" joint="thumb_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.4 0.4"/><!-- -15degrees 105degrees -->
+    <position name="thumb_yaw" joint="thumb_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.4 0.4"/><!-- -40degrees 40degrees -->
+    <position name="index_curl" joint="index_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.3 0.3"/><!-- -15degrees 105degrees -->
+    <position name="index_pitch" joint="index_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.4 0.4"/><!-- -15degrees 105degrees -->
+    <position name="index_yaw" joint="index_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.4 0.4"/><!-- -40degrees 40degrees -->
+    <position name="middle_curl" joint="middle_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.3 0.3"/><!-- -15degrees 105degrees -->
+    <position name="middle_pitch" joint="middle_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.4 0.4"/><!-- -15degrees 105degrees -->
+    <position name="middle_yaw" joint="middle_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.4 0.4"/><!-- -40degrees 40degrees -->
+    <position name="ring_curl" joint="ring_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.3 0.3"/><!-- -15degrees 105degrees -->
+    <position name="ring_pitch" joint="ring_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.4 0.4"/><!-- -15degrees 105degrees -->
+    <position name="ring_yaw" joint="ring_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.4 0.4"/><!-- -40degrees 40degrees -->
+    <position name="pinkie_curl" joint="pinkie_curl" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.3 0.3"/><!-- -15degrees 105degrees -->
+    <position name="pinkie_pitch" joint="pinkie_pitch" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.4 0.4"/><!-- -15degrees 105degrees -->
+    <position name="pinkie_yaw" joint="pinkie_yaw" kp="0.4" ctrlrange="-0.698132 0.698132" forcerange="-0.4 0.4"/><!-- -40degrees 40degrees -->
     <position name="pinkie_abduct" joint="pinkie_abduct" kp="0.4" ctrlrange="-0.261799 1.309" forcerange="-0.4 0.4"/><!-- -15degrees 75degrees -->
     <position name="thumb_abduct" joint="thumb_abduct" kp="0.4" ctrlrange="-0.261799 1.8326" forcerange="-0.6 0.6"/><!-- -15degrees 105degrees -->
     <position name="wrist_yaw" joint="wrist_yaw" kp="1.5" ctrlrange="-0.523599 0.523599" forcerange="-0.8 0.8"/><!-- -30degrees 30degrees -->
