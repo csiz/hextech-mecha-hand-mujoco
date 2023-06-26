@@ -3,7 +3,7 @@ Hex Robotics Mechahand Model
 
 MuJoCo model for Hex Robotics mechahand v13: https://www.youtube.com/shorts/kJ4OLfqDy5U
 
-![Screenshot of robot hand model in MuJoCo.](/assets/hexrobotics_mujoco_screenshot.png)
+![Screenshot of robot hand model in MuJoCo fidgeting with an orange ball.](/assets/hexrobotics_handling_screenshot.png)
 
 The MJCF `hex_hand_right.xml` describes the mechanics of the (right handed) robot hand in Meter Killogram Second (MKS) units.
 
@@ -19,6 +19,8 @@ integrated sensors. The total set of inputs and outputs for the robot hand is:
 * 5 passive joints linked by a spring mechanism providing torque sensing for the fingertips.
 * 24 force sensors on the fingertips and palm (4 around the each fingertip and 4 in the palm).
 * 1 accelerometer in the forearm.
+
+![Screenshot of robot hand model in MuJoCo.](/assets/hexrobotics_mujoco_screenshot.png)
 
 In the physical hand the 20 motor channels can be commanded by either position seeking with 
 configurable PID parameters. The custom motor driver implements current feedback and can finely 
