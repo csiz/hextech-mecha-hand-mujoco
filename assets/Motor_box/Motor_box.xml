@@ -1,0 +1,72 @@
+<mujoco model="Motor_box">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <material name="ABS_(Black)" specular="0.5" shininess="0.2" rgba="0.0000 0.4000 0.0000 1.0"/>
+    <material name="ABS_(Black)_1" specular="0.5" shininess="0.2" rgba="0.0000 0.4000 0.0000 1.0"/>
+    <material name="ABS_(Black-Blueish)" specular="0.5" shininess="0.2" rgba="0.0000 0.4000 0.0000 1.0"/>
+    <material name="Plastic_-_Matte_(Black)" specular="0.5" shininess="0.2" rgba="0.0000 0.4000 0.0000 1.0"/>
+    <material name="ABS_(White)" specular="0.5" shininess="0.2" rgba="0.0000 0.4000 0.0000 1.0"/>
+    <material name="Stainless_Steel_-_Satin" specular="0.5" shininess="0.2" rgba="0.0000 0.4000 0.0000 1.0"/>
+    <material name="Steel_-_Satin" specular="0.5" shininess="0.2" rgba="0.0000 0.4000 0.0000 1.0"/>
+    <material name="Aluminum_-_Polished+" specular="0.5" shininess="0.2" rgba="0.0000 0.4000 0.0000 1.0"/>
+    <material name="Stainless_Steel_-_Polished" specular="0.5" shininess="0.2" rgba="0.0000 0.4000 0.0000 1.0"/>
+    <material name="Chrome" specular="0.5" shininess="0.2" rgba="0.0000 0.4000 0.0000 1.0"/>
+    <material name="FR4" specular="0.5" shininess="0.2" rgba="0.0000 0.4000 0.0000 1.0"/>
+    <material name="FR4_1" specular="0.5" shininess="0.2" rgba="0.0000 0.4000 0.0000 1.0"/>
+    <material name="Glass_(Clear)" specular="0.5" shininess="0.2" rgba="0.0000 0.4000 0.0000 1.0"/>
+    <material name="Paek_(Beige)" specular="0.5" shininess="0.2" rgba="0.0000 0.4000 0.0000 1.0"/>
+    <mesh file="Motor_box_0.obj"/>
+    <mesh file="Motor_box_1.obj"/>
+    <mesh file="Motor_box_2.obj"/>
+    <mesh file="Motor_box_3.obj"/>
+    <mesh file="Motor_box_4.obj"/>
+    <mesh file="Motor_box_5.obj"/>
+    <mesh file="Motor_box_6.obj"/>
+    <mesh file="Motor_box_7.obj"/>
+    <mesh file="Motor_box_8.obj"/>
+    <mesh file="Motor_box_9.obj"/>
+    <mesh file="Motor_box_10.obj"/>
+    <mesh file="Motor_box_11.obj"/>
+    <mesh file="Motor_box_12.obj"/>
+    <mesh file="Motor_box_13.obj"/>
+  </asset>
+  <worldbody>
+    <body name="Motor_box">
+      <geom mesh="Motor_box_0" material="Stainless_Steel_-_Polished" class="visual"/>
+      <geom mesh="Motor_box_1" material="Aluminum_-_Polished" class="visual"/>
+      <geom mesh="Motor_box_2" material="Plastic_-_Matte_(Black)" class="visual"/>
+      <geom mesh="Motor_box_3" material="Steel_-_Satin" class="visual"/>
+      <geom mesh="Motor_box_4" material="FR4_1" class="visual"/>
+      <geom mesh="Motor_box_5" material="ABS_(Black-Blueish)" class="visual"/>
+      <geom mesh="Motor_box_6" material="ABS_(White)" class="visual"/>
+      <geom mesh="Motor_box_7" material="ABS_(Black)_1" class="visual"/>
+      <geom mesh="Motor_box_8" material="Paek_(Beige)" class="visual"/>
+      <geom mesh="Motor_box_9" material="Chrome" class="visual"/>
+      <geom mesh="Motor_box_10" material="Glass_(Clear)" class="visual"/>
+      <geom mesh="Motor_box_11" material="FR4" class="visual"/>
+      <geom mesh="Motor_box_12" material="Stainless_Steel_-_Satin" class="visual"/>
+      <geom mesh="Motor_box_13" material="ABS_(Black)" class="visual"/>
+      <geom mesh="Motor_box_0" class="collision"/>
+      <geom mesh="Motor_box_1" class="collision"/>
+      <geom mesh="Motor_box_2" class="collision"/>
+      <geom mesh="Motor_box_3" class="collision"/>
+      <geom mesh="Motor_box_4" class="collision"/>
+      <geom mesh="Motor_box_5" class="collision"/>
+      <geom mesh="Motor_box_6" class="collision"/>
+      <geom mesh="Motor_box_7" class="collision"/>
+      <geom mesh="Motor_box_8" class="collision"/>
+      <geom mesh="Motor_box_9" class="collision"/>
+      <geom mesh="Motor_box_10" class="collision"/>
+      <geom mesh="Motor_box_11" class="collision"/>
+      <geom mesh="Motor_box_12" class="collision"/>
+      <geom mesh="Motor_box_13" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>
