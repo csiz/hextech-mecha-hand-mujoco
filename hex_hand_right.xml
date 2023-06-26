@@ -86,8 +86,8 @@
             <geom type="mesh" mesh="palm" material="white" mass="0.060"/>
             <joint name="wrist_yaw" class="limited_joint" axis="0 0 1" pos="0 0.005 0" range="-0.349066 0.349066"/><!-- -20degrees 20degrees -->
 
-            <site name="palm_inside_left_pressure_sensor" pos="0.014 -0.075 -0.011" type="cylinder" size="0.008 0.001" material="black_transparent"/>
-            <site name="palm_inside_right_pressure_sensor" pos="-0.014 -0.075 -0.011" type="cylinder" size="0.008 0.001" material="black_transparent"/>
+            <site name="palm_inside_left_pressure_sensor" pos="0.014 -0.075 -0.012" type="cylinder" size="0.010 0.003" material="black_transparent"/>
+            <site name="palm_inside_right_pressure_sensor" pos="-0.014 -0.075 -0.012" type="cylinder" size="0.010 0.003" material="black_transparent"/>
             <site name="palm_outside_left_pressure_sensor" pos="0.018 -0.065 0.023" euler="0.0872665 0 0" type="cylinder" size="0.016 0.001" material="black_transparent"/>
             <site name="palm_outside_right_pressure_sensor" pos="-0.018 -0.065 0.023" euler="0.0872665 0 0" type="cylinder" size="0.016 0.001" material="black_transparent"/>
 
