@@ -44,6 +44,9 @@
 
   <!-- Link the 3D model files. -->
   <asset>
+    <material name="white" specular="0.5" shininess="0.4" rgba="0.8500 0.8500 0.8500 1.0"/>
+    <material name="black_transparent" specular="0.1" shininess="0.1" rgba="0.0000 0.0000 0.0000 0.1"/>
+
     <mesh class="millimeter_units" file="gimbal_structure.stl"/>
     <mesh class="millimeter_units" file="knuckle_gimbal.stl"/>
     <mesh class="millimeter_units" file="middle_segment.stl"/>
@@ -62,68 +65,68 @@
   <worldbody>
     <!-- The mounting peg next to the elbow joint is the ground reference for the hand. -->
     <body name="mount_peg" pos="0 0 0">
-      <geom type="mesh" mesh="mount_peg"/>
+      <geom type="mesh" mesh="mount_peg" material="white"/>
 
       <!-- The wrist is a ball joint made of 3 hinge joints. -->
 
       <!-- The box of tendon actuators rotates with the palm to avoid twisting the tendons. -->
       <body name="motor_box" pos="0 0 0">
         <inertial mass="0.9" pos="0 0.120 0.010" euler="0 0 1.5708" diaginertia="0.00075 0.00219 0.0024"/>
-        <geom type="mesh" mesh="motor_box"/>
+        <geom type="mesh" mesh="motor_box" material="white"/>
         <joint name="wrist_roll" class="limited_joint" axis="0 1 0" range="-1.0472 1.0472"/><!-- -60degrees 60degrees -->
         <site name="motor_box_IMU" pos="0 0.055 0.030"/>
 
         <!-- The second hinge joint drives the pitch of the palm. -->
         <body name="gimbal_structure" pos="0 0 0">
-          <geom type="mesh" mesh="gimbal_structure" mass="0.020"/>
+          <geom type="mesh" mesh="gimbal_structure" material="white" mass="0.020"/>
           <joint name="wrist_pitch" class="limited_joint" axis="1 0 0" range="-0.436332 0.959931"/><!-- -25degrees 55degrees -->
 
           <!-- The third hinge joint drives the yaw of the palm. -->  
           <body name="palm" pos="0 -0.005 0">
-            <geom type="mesh" mesh="palm" mass="0.060"/>
+            <geom type="mesh" mesh="palm" material="white" mass="0.060"/>
             <joint name="wrist_yaw" class="limited_joint" axis="0 0 1" pos="0 0.005 0" range="-0.349066 0.349066"/><!-- -20degrees 20degrees -->
 
-            <site name="palm_inside_left_pressure_sensor" pos="0.014 -0.075 -0.011" type="cylinder" size="0.008 0.001"/>
-            <site name="palm_inside_right_pressure_sensor" pos="-0.014 -0.075 -0.011" type="cylinder" size="0.008 0.001"/>
-            <site name="palm_outside_left_pressure_sensor" pos="0.018 -0.065 0.023" euler="0.0872665 0 0" type="cylinder" size="0.016 0.001"/>
-            <site name="palm_outside_right_pressure_sensor" pos="-0.018 -0.065 0.023" euler="0.0872665 0 0" type="cylinder" size="0.016 0.001"/>
+            <site name="palm_inside_left_pressure_sensor" pos="0.014 -0.075 -0.011" type="cylinder" size="0.008 0.001" material="black_transparent"/>
+            <site name="palm_inside_right_pressure_sensor" pos="-0.014 -0.075 -0.011" type="cylinder" size="0.008 0.001" material="black_transparent"/>
+            <site name="palm_outside_left_pressure_sensor" pos="0.018 -0.065 0.023" euler="0.0872665 0 0" type="cylinder" size="0.016 0.001" material="black_transparent"/>
+            <site name="palm_outside_right_pressure_sensor" pos="-0.018 -0.065 0.023" euler="0.0872665 0 0" type="cylinder" size="0.016 0.001" material="black_transparent"/>
 
             <!-- The thumb pivot is an extra joint to allow the thumb to be opposable. The joint is on axis at 15 degree angle to the center line (the middle finger line). -->
             <body name="thumb_pivot" pos="0 0 0">
-              <geom type="mesh" mesh="thumb_pivot" mass="0.010"/>
+              <geom type="mesh" mesh="thumb_pivot" material="white" mass="0.010"/>
               <joint name="thumb_abduct" class="limited_joint" axis="-0.25882 0.96593 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
             
               <!-- The thumb starts at 55mm from the palm origin and an angle of 45 degrees to the center line, followed by twisting 30 degrees around the finger axis. -->
               <body name="thumb_knuckle" pos="0.03889 -0.03889 0" euler="-0.3875967 0.3613671 0.857072 "> 
                 <!-- The euler params are the result of applying 2 rotations, also specified by XYZ euler: 0 0 45degeers; 0 30degrees 0. -->
-                <geom type="mesh" mesh="knuckle_gimbal" mass="0.005"/>
+                <geom type="mesh" mesh="knuckle_gimbal" material="white" mass="0.005"/>
                 <joint name="thumb_yaw" class="limited_joint" axis="0 0 1" range="-0.523599 0.523599"/><!-- 30degrees 30degrees -->
 
                 <!-- The thumb uses the shorter proximal segment. The axis of the pitch joint is 15mm offset from the yaw axis, due to sensor space constraints. --> 
                 <body name="thumb_proximal" pos="0 0 0">
-                  <geom type="mesh" mesh="squash_proximal" mass="0.025"/>
+                  <geom type="mesh" mesh="squash_proximal" material="white" mass="0.025"/>
                   <joint name="thumb_pitch" class="limited_joint" axis="1 0 0" pos="0 -0.015 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
 
                   <!-- The shorter middle segment means the middle segment needs to be offset by 5mm. The joint is at 45mm from the finger yaw axis. -->
                   <body name="thumb_middle" pos="0 0.005 0">
-                    <geom type="mesh" mesh="middle_segment" mass="0.013"/>
+                    <geom type="mesh" mesh="middle_segment" material="white" mass="0.013"/>
                     <joint name="thumb_curl" class="limited_joint" axis="1 0 0" pos="0 -0.045 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
 
                     <!-- The tip axis joint is 75mm from the yaw axis for the stubbier finger. -->
                     <body name="thumb_tip" pos="0 0 0">
-                      <geom type="mesh" mesh="tip" mass="0.015"/>
+                      <geom type="mesh" mesh="tip" material="white" mass="0.015"/>
                       <joint name="thumb_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.8326" damping="0.01"/><!-- 0degrees 105degrees -->
                       <site name="thumb_tip_joint" pos="0 -0.075 0"/>
-                      <site name="thumb_nail_pressure_sensor" pos="0 -0.085 0.0095" type="cylinder" size="0.006 0.001"/>
-                      <site name="thumb_tip_pressure_sensor" pos="0 -0.090 -0.0055" euler="-0.523599 0 0" type="cylinder" size="0.006 0.001"/>
-                      <site name="thumb_left_pressure_sensor" pos="0.007 -0.085 0.002" euler="0 1.5708 0" type="cylinder" size="0.006 0.001"/>
-                      <site name="thumb_right_pressure_sensor" pos="-0.008 -0.085 0.002" euler="0 -1.5708 0" type="cylinder" size="0.006 0.001"/>
+                      <site name="thumb_nail_pressure_sensor" pos="0 -0.085 0.0095" type="cylinder" size="0.006 0.001" material="black_transparent"/>
+                      <site name="thumb_tip_pressure_sensor" pos="0 -0.090 -0.0055" euler="-0.523599 0 0" type="cylinder" size="0.006 0.001" material="black_transparent"/>
+                      <site name="thumb_left_pressure_sensor" pos="0.007 -0.085 0.002" euler="0 1.5708 0" type="cylinder" size="0.006 0.001" material="black_transparent"/>
+                      <site name="thumb_right_pressure_sensor" pos="-0.008 -0.085 0.002" euler="0 -1.5708 0" type="cylinder" size="0.006 0.001" material="black_transparent"/>
                     </body>
                   </body>
                 
                   <!-- The tip is driven by a 4 linkage bar where one of the bars is a springy plastic piece. The linkage chain is completed with equality constraints. -->
                   <body name="thumb_spring_rod" pos="0 0.005 0">
-                    <geom type="mesh" mesh="tip_spring_rod" mass="0.002"/>
+                    <geom type="mesh" mesh="tip_spring_rod" material="white" mass="0.002"/>
                     <joint name="thumb_spring_rod" class="limited_joint" axis="1 0 0" pos="0 -0.050728 0.005728" range="0 1.5708"/><!-- 0degrees 90degrees -->
                   </body>
                 </body>
@@ -133,34 +136,34 @@
 
             <!-- The index starts at 90mm from the palm origin and an angle of 15 degrees to the center line. -->
             <body name="index_knuckle" pos="0.02329 -0.08693 0" euler="0 0 0.261799">
-              <geom type="mesh" mesh="knuckle_gimbal" mass="0.005"/>
+              <geom type="mesh" mesh="knuckle_gimbal" material="white" mass="0.005"/>
               <joint name="index_yaw" class="limited_joint" axis="0 0 1" range="-0.523599 0.523599"/><!-- 30degrees 30degrees -->
 
               <!-- The axis of the pitch joint is 15mm offset from the yaw axis, due to sensor space constraints. --> 
               <body name="index_proximal" pos="0 0 0">
-                <geom type="mesh" mesh="proximal" mass="0.027"/>
+                <geom type="mesh" mesh="proximal" material="white" mass="0.027"/>
                 <joint name="index_pitch" class="limited_joint" axis="1 0 0" pos="0 -0.015 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
 
                 <!-- The joint is at 50mm from the finger yaw axis. -->
                 <body name="index_middle" pos="0 0 0">
-                  <geom type="mesh" mesh="middle_segment" mass="0.013"/>
+                  <geom type="mesh" mesh="middle_segment" material="white" mass="0.013"/>
                   <joint name="index_curl" class="limited_joint" axis="1 0 0" pos="0 -0.045 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
 
                   <!-- The tip axis joint is 80mm from the yaw axis for the finger. -->
                   <body name="index_tip" pos="0 0 0">
-                    <geom type="mesh" mesh="tip" mass="0.015"/>
+                    <geom type="mesh" mesh="tip" material="white" mass="0.015"/>
                     <joint name="index_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.8326" damping="0.01"/><!-- 0degrees 105degrees -->
                     <site name="index_tip_joint" pos="0 -0.075 0"/>
-                    <site name="index_nail_pressure_sensor" pos="0 -0.085 0.0095" type="cylinder" size="0.006 0.001"/>
-                    <site name="index_tip_pressure_sensor" pos="0 -0.090 -0.0055" euler="-0.523599 0 0" type="cylinder" size="0.006 0.001"/>
-                    <site name="index_left_pressure_sensor" pos="0.007 -0.085 0.002" euler="0 1.5708 0" type="cylinder" size="0.006 0.001"/>
-                    <site name="index_right_pressure_sensor" pos="-0.008 -0.085 0.002" euler="0 -1.5708 0" type="cylinder" size="0.006 0.001"/>
+                    <site name="index_nail_pressure_sensor" pos="0 -0.085 0.0095" type="cylinder" size="0.006 0.001" material="black_transparent"/>
+                    <site name="index_tip_pressure_sensor" pos="0 -0.090 -0.0055" euler="-0.523599 0 0" type="cylinder" size="0.006 0.001" material="black_transparent"/>
+                    <site name="index_left_pressure_sensor" pos="0.007 -0.085 0.002" euler="0 1.5708 0" type="cylinder" size="0.006 0.001" material="black_transparent"/>
+                    <site name="index_right_pressure_sensor" pos="-0.008 -0.085 0.002" euler="0 -1.5708 0" type="cylinder" size="0.006 0.001" material="black_transparent"/>
                   </body>
                 </body>
 
                 <!-- The tip is driven by a 4 linkage bar where one of the bars is a springy plastic piece. The linkage chain is completed with equality constraints. -->
                 <body name="index_spring_rod" pos="0 0 0">
-                  <geom type="mesh" mesh="tip_spring_rod" mass="0.002"/>
+                  <geom type="mesh" mesh="tip_spring_rod" material="white" mass="0.002"/>
                   <joint name="index_spring_rod" class="limited_joint" axis="1 0 0" pos="0 -0.050728 0.005728" range="0 1.5708"/><!-- 0degrees 90degrees -->
                 </body>
               </body>
@@ -168,34 +171,34 @@
 
             <!-- The middle starts at 90mm from the palm origin and is aligned with the center line. -->
             <body name="middle_knuckle" pos="0 -0.090 0" euler="0 0 0">
-              <geom type="mesh" mesh="knuckle_gimbal" mass="0.005"/>
+              <geom type="mesh" mesh="knuckle_gimbal" material="white" mass="0.005"/>
               <joint name="middle_yaw" class="limited_joint" axis="0 0 1" range="-0.523599 0.523599"/><!-- 30degrees 30degrees -->
 
               <!-- The axis of the pitch joint is 15mm offset from the yaw axis, due to sensor space constraints. --> 
               <body name="middle_proximal" pos="0 0 0">
-                <geom type="mesh" mesh="proximal" mass="0.027"/>
+                <geom type="mesh" mesh="proximal" material="white" mass="0.027"/>
                 <joint name="middle_pitch" class="limited_joint" axis="1 0 0" pos="0 -0.015 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
 
                 <!-- The joint is at 50mm from the finger yaw axis. -->
                 <body name="middle_middle" pos="0 0 0">
-                  <geom type="mesh" mesh="middle_segment" mass="0.013"/>
+                  <geom type="mesh" mesh="middle_segment" material="white" mass="0.013"/>
                   <joint name="middle_curl" class="limited_joint" axis="1 0 0" pos="0 -0.045 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
 
                   <!-- The tip axis joint is 80mm from the yaw axis for the finger. -->
                   <body name="middle_tip" pos="0 0 0">
-                    <geom type="mesh" mesh="tip" mass="0.015"/>
+                    <geom type="mesh" mesh="tip" material="white" mass="0.015"/>
                     <joint name="middle_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.8326" damping="0.01"/><!-- 0degrees 105degrees -->
                     <site name="middle_tip_joint" pos="0 -0.075 0"/>
-                    <site name="middle_nail_pressure_sensor" pos="0 -0.085 0.0095" type="cylinder" size="0.006 0.001"/>
-                    <site name="middle_tip_pressure_sensor" pos="0 -0.090 -0.0055" euler="-0.523599 0 0" type="cylinder" size="0.006 0.001"/>
-                    <site name="middle_left_pressure_sensor" pos="0.007 -0.085 0.002" euler="0 1.5708 0" type="cylinder" size="0.006 0.001"/>
-                    <site name="middle_right_pressure_sensor" pos="-0.008 -0.085 0.002" euler="0 -1.5708 0" type="cylinder" size="0.006 0.001"/>
+                    <site name="middle_nail_pressure_sensor" pos="0 -0.085 0.0095" type="cylinder" size="0.006 0.001" material="black_transparent"/>
+                    <site name="middle_tip_pressure_sensor" pos="0 -0.090 -0.0055" euler="-0.523599 0 0" type="cylinder" size="0.006 0.001" material="black_transparent"/>
+                    <site name="middle_left_pressure_sensor" pos="0.007 -0.085 0.002" euler="0 1.5708 0" type="cylinder" size="0.006 0.001" material="black_transparent"/>
+                    <site name="middle_right_pressure_sensor" pos="-0.008 -0.085 0.002" euler="0 -1.5708 0" type="cylinder" size="0.006 0.001" material="black_transparent"/>
                   </body>
                 </body>
 
                 <!-- The tip is driven by a 4 linkage bar where one of the bars is a springy plastic piece. The linkage chain is completed with equality constraints. -->
                 <body name="middle_spring_rod" pos="0 0 0">
-                  <geom type="mesh" mesh="tip_spring_rod" mass="0.002"/>
+                  <geom type="mesh" mesh="tip_spring_rod" material="white" mass="0.002"/>
                   <joint name="middle_spring_rod" class="limited_joint" axis="1 0 0" pos="0 -0.050728 0.005728" range="0 1.5708"/><!-- 0degrees 90degrees -->
                 </body>
               </body>
@@ -203,34 +206,34 @@
 
             <!-- The ring finger starts at 90mm from the palm origin and an angle of 15 degrees to the center line. -->
             <body name="ring_knuckle" pos="-0.02329 -0.08693 0" euler="0 0 -0.261799">
-              <geom type="mesh" mesh="knuckle_gimbal" mass="0.005"/>
+              <geom type="mesh" mesh="knuckle_gimbal" material="white" mass="0.005"/>
               <joint name="ring_yaw" class="limited_joint" axis="0 0 1" range="-0.523599 0.523599"/><!-- 30degrees 30degrees -->
 
               <!-- The axis of the pitch joint is 15mm offset from the yaw axis, due to sensor space constraints. --> 
               <body name="ring_proximal" pos="0 0 0">
-                <geom type="mesh" mesh="proximal" mass="0.027"/>
+                <geom type="mesh" mesh="proximal" material="white" mass="0.027"/>
                 <joint name="ring_pitch" class="limited_joint" axis="1 0 0" pos="0 -0.015 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
 
                 <!-- The joint is at 50mm from the finger yaw axis. -->
                 <body name="ring_middle" pos="0 0 0">
-                  <geom type="mesh" mesh="middle_segment" mass="0.013"/>
+                  <geom type="mesh" mesh="middle_segment" material="white" mass="0.013"/>
                   <joint name="ring_curl" class="limited_joint" axis="1 0 0" pos="0 -0.045 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
 
                   <!-- The tip axis joint is 80mm from the yaw axis for the finger. -->
                   <body name="ring_tip" pos="0 0 0">
-                    <geom type="mesh" mesh="tip" mass="0.015"/>
+                    <geom type="mesh" mesh="tip" material="white" mass="0.015"/>
                     <joint name="ring_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.8326" damping="0.01"/><!-- 0degrees 105degrees -->
                     <site name="ring_tip_joint" pos="0 -0.075 0"/>
-                    <site name="ring_nail_pressure_sensor" pos="0 -0.085 0.0095" type="cylinder" size="0.006 0.001"/>
-                    <site name="ring_tip_pressure_sensor" pos="0 -0.090 -0.0055" euler="-0.523599 0 0" type="cylinder" size="0.006 0.001"/>
-                    <site name="ring_left_pressure_sensor" pos="0.007 -0.085 0.002" euler="0 1.5708 0" type="cylinder" size="0.006 0.001"/>
-                    <site name="ring_right_pressure_sensor" pos="-0.008 -0.085 0.002" euler="0 -1.5708 0" type="cylinder" size="0.006 0.001"/>
+                    <site name="ring_nail_pressure_sensor" pos="0 -0.085 0.0095" type="cylinder" size="0.006 0.001" material="black_transparent"/>
+                    <site name="ring_tip_pressure_sensor" pos="0 -0.090 -0.0055" euler="-0.523599 0 0" type="cylinder" size="0.006 0.001" material="black_transparent"/>
+                    <site name="ring_left_pressure_sensor" pos="0.007 -0.085 0.002" euler="0 1.5708 0" type="cylinder" size="0.006 0.001" material="black_transparent"/>
+                    <site name="ring_right_pressure_sensor" pos="-0.008 -0.085 0.002" euler="0 -1.5708 0" type="cylinder" size="0.006 0.001" material="black_transparent"/>
                   </body>
                 </body>
 
                 <!-- The tip is driven by a 4 linkage bar where one of the bars is a springy plastic piece. The linkage chain is completed with equality constraints. -->
                 <body name="ring_spring_rod" pos="0 0 0">
-                  <geom type="mesh" mesh="tip_spring_rod" mass="0.002"/>
+                  <geom type="mesh" mesh="tip_spring_rod" material="white" mass="0.002"/>
                   <joint name="ring_spring_rod" class="limited_joint" axis="1 0 0" pos="0 -0.050728 0.005728" range="0 1.5708"/><!-- 0degrees 90degrees -->
                 </body>
               </body>
@@ -238,39 +241,39 @@
 
             <!-- The pinkie pivot functions similar to the thumb pivot and makes the pinkie opposable. It's simmetric with the thumb pivot at 15 degrees angle to the center line. -->
             <body name="pinkie_pivot" pos="0 0 0">
-              <geom type="mesh" mesh="pinkie_pivot" mass="0.010"/>
+              <geom type="mesh" mesh="pinkie_pivot" material="white" mass="0.010"/>
               <joint name="pinkie_abduct" class="limited_joint" axis="-0.25882 -0.96593 0" range="0 1.0472"/><!-- 0degrees 60degrees -->
 
               <!-- The pinkie starts at 80mm from the palm origin and an angle of 30 degrees to the center line. -->
               <body name="pinkie_knuckle" pos="-0.04 -0.06928 0" euler="0 0 -0.523599">
-                <geom type="mesh" mesh="knuckle_gimbal" mass="0.005"/>
+                <geom type="mesh" mesh="knuckle_gimbal" material="white" mass="0.005"/>
                 <joint name="pinkie_yaw" class="limited_joint" axis="0 0 1" range="-0.523599 0.523599"/><!-- 30degrees 30degrees -->
 
                 <!-- The pinkie uses the shorter proximal segment. The axis of the pitch joint is 15mm offset from the yaw axis, due to sensor space constraints. --> 
                 <body name="pinkie_proximal" pos="0 0 0">
-                  <geom type="mesh" mesh="squash_proximal" mass="0.025"/>
+                  <geom type="mesh" mesh="squash_proximal" material="white" mass="0.025"/>
                   <joint name="pinkie_pitch" class="limited_joint" axis="1 0 0" pos="0 -0.015 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
 
                   <!-- The shorter middle segment means the middle segment needs to be offset by 5mm. The joint is at 45mm from the finger yaw axis. -->
                   <body name="pinkie_middle" pos="0 0.005 0">
-                    <geom type="mesh" mesh="middle_segment" mass="0.013"/>
+                    <geom type="mesh" mesh="middle_segment" material="white" mass="0.013"/>
                     <joint name="pinkie_curl" class="limited_joint" axis="1 0 0" pos="0 -0.045 0" range="0 1.5708"/><!-- 0degrees 90degrees -->
 
                     <!-- The tip axis joint is 75mm from the yaw axis for the stubbier pinkie finger. -->
                     <body name="pinkie_tip" pos="0 0 0">
-                      <geom type="mesh" mesh="tip" mass="0.015"/>
+                      <geom type="mesh" mesh="tip" material="white" mass="0.015"/>
                       <joint name="pinkie_tip" class="limited_joint" axis="1 0 0" pos="0 -0.075 0" range="0 1.8326" damping="0.01"/><!-- 0degrees 105degrees -->
                       <site name="pinkie_tip_joint" pos="0 -0.075 0"/>
-                      <site name="pinkie_nail_pressure_sensor" pos="0 -0.085 0.0095" type="cylinder" size="0.006 0.001"/>
-                      <site name="pinkie_tip_pressure_sensor" pos="0 -0.090 -0.0055" euler="-0.523599 0 0" type="cylinder" size="0.006 0.001"/>
-                      <site name="pinkie_left_pressure_sensor" pos="0.007 -0.085 0.002" euler="0 1.5708 0" type="cylinder" size="0.006 0.001"/>
-                      <site name="pinkie_right_pressure_sensor" pos="-0.008 -0.085 0.002" euler="0 -1.5708 0" type="cylinder" size="0.006 0.001"/>
+                      <site name="pinkie_nail_pressure_sensor" pos="0 -0.085 0.0095" type="cylinder" size="0.006 0.001" material="black_transparent"/>
+                      <site name="pinkie_tip_pressure_sensor" pos="0 -0.090 -0.0055" euler="-0.523599 0 0" type="cylinder" size="0.006 0.001" material="black_transparent"/>
+                      <site name="pinkie_left_pressure_sensor" pos="0.007 -0.085 0.002" euler="0 1.5708 0" type="cylinder" size="0.006 0.001" material="black_transparent"/>
+                      <site name="pinkie_right_pressure_sensor" pos="-0.008 -0.085 0.002" euler="0 -1.5708 0" type="cylinder" size="0.006 0.001" material="black_transparent"/>
                     </body>
                   </body>
 
                   <!-- The tip is driven by a 4 linkage bar where one of the bars is a springy plastic piece. The linkage chain is completed with equality constraints. -->
                   <body name="pinkie_spring_rod" pos="0 0.005 0">
-                    <geom type="mesh" mesh="tip_spring_rod" mass="0.002"/>
+                    <geom type="mesh" mesh="tip_spring_rod" material="white" mass="0.002"/>
                     <joint name="pinkie_spring_rod" class="limited_joint" axis="1 0 0" pos="0 -0.050728 0.005728" range="0 1.5708"/><!-- 0degrees 90degrees -->
                   </body>
                 </body>
